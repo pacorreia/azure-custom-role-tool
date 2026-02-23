@@ -1,0 +1,35 @@
+{
+  "Name": "Senior Developer",
+  "IsCustom": true,
+  "Description": "Full permissions for senior developers",
+  "Type": "CustomRole",
+  "Permissions": [
+    {
+      "Actions": [
+        "Microsoft.Compute/virtualMachines/*",
+        "Microsoft.Storage/storageAccounts/*",
+        "Microsoft.KeyVault/vaults/*",
+        "Microsoft.KeyVault/vaults/keys/*",
+        "Microsoft.KeyVault/vaults/secrets/*",
+        "Microsoft.Sql/servers/*",
+        "Microsoft.Sql/servers/databases/*",
+        "Microsoft.Web/sites/*",
+        "Microsoft.Web/serverFarms/*",
+        "Microsoft.Container Registries/registries/*"
+      ],
+      "NotActions": [],
+      "DataActions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/*",
+        "Microsoft.Storage/storageAccounts/fileServices/shares/files/*",
+        "Microsoft.Storage/storageAccounts/queueServices/queues/messages/*",
+        "Microsoft.Storage/storageAccounts/tableServices/tables/entities/*",
+        "Microsoft.Sql/servers/databases/tables/data/*",
+        "Microsoft.Sql/servers/databases/views/data/*"
+      ],
+      "NotDataActions": []
+    }
+  ],
+  "AssignableScopes": ["/"],
+  "CreatedOn": "2024-01-15",
+  "UpdatedOn": "2024-01-15"
+}

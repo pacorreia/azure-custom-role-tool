@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "azure-custom-role-tool"
+version = "1.0.0"
+description = "A powerful CLI tool for creating and managing Azure custom roles"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "Proprietary"}
+authors = [
+    {name = "OI Technologies Platform Engineering", email = "platform-engineering@example.com"}
+]
+keywords = ["azure", "custom-roles", "permissions", "iam", "cli"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Systems Administration",
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+]
+dependencies = [
+    "azure-identity>=1.14.0",
+    "azure-mgmt-authorization>=4.0.0",
+    "azure-mgmt-subscription>=3.1.0",
+    "azure-common>=1.1.28",
+    "click>=8.1.7",
+    "tabulate>=0.9.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.4.2",
+    "rich>=13.7.0",
+    "prompt-toolkit>=3.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/pacorreia/azure-custom-role-tool"
+Repository = "https://github.com/pacorreia/azure-custom-role-tool.git"
+Documentation = "https://github.com/pacorreia/azure-custom-role-tool"
+
+[project.scripts]
+custom-role-designer = "azure_custom_role_tool.cli:main"
+
+[tool.setuptools]
+packages = ["azure_custom_role_tool"]
+
+[tool.setuptools.package-data]
+azure_custom_role_tool = ["*.py"]

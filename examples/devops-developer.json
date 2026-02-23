@@ -1,0 +1,43 @@
+{
+  "Name": "DevOps Developer",
+  "IsCustom": true,
+  "Description": "Permissions for DevOps engineers focused on deployment and infrastructure",
+  "Type": "CustomRole",
+  "Permissions": [
+    {
+      "Actions": [
+        "Microsoft.Authorization/roleAssignments/*",
+        "Microsoft.Authorization/roleDefinitions/*",
+        "Microsoft.Authorization/permissions/*",
+        "Microsoft.Compute/virtualMachines/*",
+        "Microsoft.Compute/virtualMachineScaleSets/*",
+        "Microsoft.Network/*",
+        "Microsoft.Storage/storageAccounts/*",
+        "Microsoft.KeyVault/vaults/*",
+        "Microsoft.ContainerRegistry/registries/*",
+        "Microsoft.ContainerInstance/containerGroups/*",
+        "Microsoft.Kubernetes/managedClusters/*",
+        "Microsoft.Kubernetes/managedClusters/namespaces/*",
+        "Microsoft.Web/sites/*",
+        "Microsoft.Web/serverFarms/*",
+        "Microsoft.Insights/components/*",
+        "Microsoft.Insights/alertrules/*",
+        "Microsoft.OperationalInsights/workspaces/*"
+      ],
+      "NotActions": [
+        "Microsoft.Authorization/*/Delete",
+        "Microsoft.Compute/virtualMachines/delete"
+      ],
+      "DataActions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/*",
+        "Microsoft.Storage/storageAccounts/fileServices/shares/files/*",
+        "Microsoft.KeyVault/vaults/secrets/*",
+        "Microsoft.KeyVault/vaults/keys/*"
+      ],
+      "NotDataActions": []
+    }
+  ],
+  "AssignableScopes": ["/"],
+  "CreatedOn": "2024-01-15",
+  "UpdatedOn": "2024-01-15"
+}

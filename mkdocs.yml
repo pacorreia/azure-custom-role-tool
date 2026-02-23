@@ -1,0 +1,56 @@
+site_name: Azure Custom Role Designer Documentation
+site_description: Comprehensive documentation for the Azure Custom Role Designer CLI tool
+site_author: Platform Engineering Team
+copyright: Copyright © 2024 Platform Engineering
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - User Guides:
+      - Overview: guides/index.md
+      - Paste Mode: guides/paste-mode.md
+      - Delete Role: guides/delete-role.md
+      - Platform Engineer Guide: guides/platform-engineer.md
+  - Features:
+      - Overview: features/index.md
+      - Multi-line Scripts: features/multiline-scripts.md
+      - Role Properties: features/role-properties.md
+      - Unified Load: features/unified-load.md
+      - Merge with Azure Fallback: features/merge-azure-fallback.md
+  - Reference:
+      - Overview: reference/index.md
+      - Feature Reference: reference/feature-reference.md
+      - Quick Reference: reference/quick-reference.md
+  - Development:
+      - Overview: development/index.md
+      - Code Refactoring: development/code-refactoring.md
+      - Implementation Summary: development/implementation-summary.md
+      - Multi-line Implementation: development/multiline-implementation.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - tables
+  - toc:
+      permalink: true
