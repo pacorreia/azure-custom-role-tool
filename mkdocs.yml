@@ -107,9 +107,6 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/pacorreia/azure-custom-role-tool
-  analytics:
-    provider: google
-    property: UA-XXXXXXXXX-X
 
 watch:
   - docs/
