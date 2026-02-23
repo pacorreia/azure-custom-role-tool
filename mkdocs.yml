@@ -38,8 +38,9 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to light mode
-  repo_url: https://github.com/pacorreia/azure-custom-role-tool
-  repo_name: pacorreia/azure-custom-role-tool
+
+repo_url: https://github.com/pacorreia/azure-custom-role-tool
+repo_name: pacorreia/azure-custom-role-tool
 edit_uri: ''
 
 nav:
