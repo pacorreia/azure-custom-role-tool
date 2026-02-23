@@ -40,7 +40,7 @@ theme:
         name: Switch to light mode
   repo_url: https://github.com/pacorreia/azure-custom-role-tool
   repo_name: pacorreia/azure-custom-role-tool
-edit_uri: edit/main/docs/
+edit_uri: ''
 
 nav:
   - Home: index.md
