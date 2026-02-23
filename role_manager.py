@@ -214,7 +214,7 @@ class RoleManager:
         }
         
         for source_role in source_roles:
-            extracted = PermissionFilter.extract_actions(source_role.Permissions)
+            extracted = PermissionFilter.extract_actions([p.dict() for p in source_role.Permissions])
             
             # Apply filters
             for key in all_actions:
@@ -232,10 +232,13 @@ class RoleManager:
         
         # Add to current role
         if self.current_role.Permissions and not self.current_role.Permissions[0].is_empty():
-            PermissionFilter.merge_permission_blocks(
+            merged_blocks = PermissionFilter.merge_permission_blocks(
                 [p.dict() for p in self.current_role.Permissions],
                 all_actions
             )
+            self.current_role.Permissions = [
+                PermissionDefinition(**block) for block in merged_blocks
+            ]
         else:
             self.current_role.Permissions = [
                 PermissionDefinition(
@@ -270,7 +273,7 @@ class RoleManager:
         if self.current_role is None:
             raise ValueError("No current role set.")
         
-        extracted = PermissionFilter.extract_actions(self.current_role.Permissions)
+        extracted = PermissionFilter.extract_actions([p.dict() for p in self.current_role.Permissions])
         
         # Apply filters to get permissions to REMOVE
         for key in ["actions", "not_actions", "data_actions", "not_data_actions"]:
