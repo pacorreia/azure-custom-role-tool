@@ -1,0 +1,34 @@
+{
+  "Name": "Junior Developer",
+  "IsCustom": true,
+  "Description": "Restricted permissions for junior developers",
+  "Type": "CustomRole",
+  "Permissions": [
+    {
+      "Actions": [
+        "Microsoft.Compute/virtualMachines/read",
+        "Microsoft.Compute/virtualMachines/instanceView/read",
+        "Microsoft.Storage/storageAccounts/read",
+        "Microsoft.Storage/storageAccounts/listKeys/action",
+        "Microsoft.KeyVault/vaults/read",
+        "Microsoft.KeyVault/vaults/keys/read",
+        "Microsoft.KeyVault/vaults/secrets/read"
+      ],
+      "NotActions": [
+        "Microsoft.Compute/virtualMachines/delete",
+        "Microsoft.Compute/virtualMachines/deallocate/action",
+        "Microsoft.Storage/storageAccounts/delete"
+      ],
+      "DataActions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "NotDataActions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/delete",
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ]
+    }
+  ],
+  "AssignableScopes": ["/"],
+  "CreatedOn": "2024-01-15",
+  "UpdatedOn": "2024-01-15"
+}

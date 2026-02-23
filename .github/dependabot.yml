@@ -1,0 +1,44 @@
+version: 2
+updates:
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      azure-dependencies:
+        patterns:
+          - "azure-*"
+      development-dependencies:
+        patterns:
+          - "pytest*"
+          - "black"
+          - "isort"
+          - "flake8*"
+          - "mkdocs*"
+    ignore:
+      # Ignore patch and minor updates for stable packages
+      - dependency-name: "click"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "rich"
+        update-types: ["version-update:semver-patch"]

@@ -1,0 +1,8 @@
+include README.md
+include PLATFORM_ENGINEER_GUIDE.md
+include FEATURE_REFERENCE.md
+include IMPLEMENTATION_SUMMARY.md
+include .env.example
+include LICENSE
+recursive-include examples *.json
+recursive-include roles *.json
