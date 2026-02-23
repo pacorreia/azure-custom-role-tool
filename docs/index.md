@@ -1,5 +1,10 @@
 # Azure Custom Role Designer
 
+[![Python CI](https://github.com/pacorreia/azure-custom-role-tool/actions/workflows/python-ci.yml/badge.svg)](https://github.com/pacorreia/azure-custom-role-tool/actions/workflows/python-ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://pacorreia.github.io/azure-custom-role-tool/badges/coverage.json)](https://github.com/pacorreia/azure-custom-role-tool/actions/workflows/python-ci.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/github/license/pacorreia/azure-custom-role-tool)](LICENSE)
+
 ## Welcome
 
 **Azure Custom Role Designer** is a powerful command-line tool for platform engineers to create, manage, and deploy Azure custom roles with granular permission control.
