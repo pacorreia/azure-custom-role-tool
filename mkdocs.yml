@@ -68,8 +68,6 @@ nav:
 
 plugins:
   - search
-  - mermaid2
-
 markdown_extensions:
   - admonition
   - attr_list
