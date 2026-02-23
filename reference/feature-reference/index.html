@@ -1,0 +1,2055 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the Azure Custom Role Designer CLI tool">
+      
+      
+        <meta name="author" content="Platform Engineering Team">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../quick-reference/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Feature Reference - Azure Custom Role Designer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#azure-custom-role-designer-feature-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Azure Custom Role Designer Documentation" class="md-header__button md-logo" aria-label="Azure Custom Role Designer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Azure Custom Role Designer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Feature Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/" class="md-tabs__link">
+          
+  
+  
+  User Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Azure Custom Role Designer Documentation" class="md-nav__button md-logo" aria-label="Azure Custom Role Designer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Azure Custom Role Designer Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/paste-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paste Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/delete-role/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delete Role
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/platform-engineer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Engineer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/multiline-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-line Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/role-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/unified-load/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unified Load
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/merge-azure-fallback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Merge with Azure Fallback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#complete-feature-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Complete Feature Set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-roles-from-scratch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 1. Create Roles from Scratch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cherry-pick-permissions-from-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 2. Cherry-pick Permissions from Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-merge-permissions-from-multiple-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 3. Merge Permissions from Multiple Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-filter-by-string-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 4. Filter by String Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-filter-by-permission-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 5. Filter by Permission Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-remove-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 6. Remove Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-load-and-save-local-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 7. Load and Save Local Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-publish-to-azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 8. Publish to Azure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-list-and-view-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 9. List and View Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-interactive-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 10. Interactive Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-1-incremental-permission-building" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 1: Incremental Permission Building
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-2-role-specialization-from-broad-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 2: Role Specialization from Broad Base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-3-role-combination-for-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 3: Role Combination for Teams
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-4-environment-specific-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 4: Environment-Specific Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#role-definition-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role Definition (JSON)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filtering-syntax-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filtering Syntax Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filtering Syntax Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#string-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        String Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Script Automation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/code-refactoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Refactoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/implementation-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/multiline-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-line Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="azure-custom-role-designer-feature-reference">Azure Custom Role Designer - Feature Reference<a class="headerlink" href="#azure-custom-role-designer-feature-reference" title="Permanent link">&para;</a></h1>
+<h2 id="complete-feature-set">📋 Complete Feature Set<a class="headerlink" href="#complete-feature-set" title="Permanent link">&para;</a></h2>
+<p>This document provides a comprehensive reference for all capabilities of the Azure Custom Role Designer tool.</p>
+<h2 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">&para;</a></h2>
+<h3 id="1-create-roles-from-scratch">✅ 1. Create Roles from Scratch<a class="headerlink" href="#1-create-roles-from-scratch" title="Permanent link">&para;</a></h3>
+<p>Create a brand new custom role with no initial permissions:</p>
+<div class="highlight"><pre><span></span><code>custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;MyRole&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;My custom role&quot;</span>
+</code></pre></div>
+<p><strong>Features:</strong>
+- Auto-generate unique role IDs
+- Set timestamps automatically
+- Initialize empty permission blocks
+- Ready for adding permissions</p>
+<h3 id="2-cherry-pick-permissions-from-roles">✅ 2. Cherry-pick Permissions from Roles<a class="headerlink" href="#2-cherry-pick-permissions-from-roles" title="Permanent link">&para;</a></h3>
+<p>Selectively choose specific permissions from existing roles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Merge single permission exactly</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;source-role&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage/storageAccounts/read&quot;</span>
+
+<span class="c1"># Merge specific action patterns</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;source-role&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Web*&quot;</span>
+</code></pre></div>
+<p><strong>Features:</strong>
+- Wildcard pattern matching
+- Case-insensitive search
+- Regex support (if needed)
+- Deduplication across merges</p>
+<h3 id="3-merge-permissions-from-multiple-roles">✅ 3. Merge Permissions from Multiple Roles<a class="headerlink" href="#3-merge-permissions-from-multiple-roles" title="Permanent link">&para;</a></h3>
+<p>Combine permissions from multiple source roles simultaneously:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple merge</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;role1,role2,role3&quot;</span>
+
+<span class="c1"># With filtering</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;junior-dev,reader,viewer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*read*&quot;</span>
+
+<span class="c1"># Multiple filters</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Storage*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</code></pre></div>
+<p><strong>Features:</strong>
+- Combine multiple roles at once
+- Automatic deduplication
+- Preserve action/notaction/dataaction/notdataaction structure
+- Smart list management</p>
+<h3 id="4-filter-by-string-pattern">✅ 4. Filter by String Pattern<a class="headerlink" href="#4-filter-by-string-pattern" title="Permanent link">&para;</a></h3>
+<p>Search and filter permissions by text patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple wildcard</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Storage*&quot;</span>
+
+<span class="c1"># Partial match</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*blobs*&quot;</span>
+
+<span class="c1"># Complex pattern</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage/storageAccounts/blobServices/*&quot;</span>
+</code></pre></div>
+<p><strong>Filter Syntax:</strong>
+- <code>*</code> for wildcards: <code>Microsoft.Storage*</code> matches all Storage services
+- Case-insensitive matching
+- Supports partial token matching: <code>*/read</code> matches any read operations
+- Regex patterns (optional advanced usage)</p>
+<p><strong>Examples:</strong>
+- <code>Microsoft.Storage*</code> - All Storage service operations
+- <code>*read</code> - All read operations
+- <code>Microsoft.*/*/write</code> - Write operations on any service
+- <code>*Blob*/</code> - Blob-related operations</p>
+<h3 id="5-filter-by-permission-type">✅ 5. Filter by Permission Type<a class="headerlink" href="#5-filter-by-permission-type" title="Permanent link">&para;</a></h3>
+<p>Separate and manage control vs. data plane permissions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Control plane only (management operations)</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
+
+<span class="c1"># Data plane only (data operations)</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+
+<span class="c1"># Combined with string filter</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Storage*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</code></pre></div>
+<p><strong>Permission Types:</strong></p>
+<p><strong>Control Plane (Management):</strong>
+- Resource creation/deletion
+- Configuration changes
+- Access management
+- Example: <code>Microsoft.Compute/virtualMachines/start/action</code></p>
+<p><strong>Data Plane (Data Operations):</strong>
+- Read/write data
+- Query databases
+- Blob access
+- Example: <code>Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read</code></p>
+<h3 id="6-remove-permissions">✅ 6. Remove Permissions<a class="headerlink" href="#6-remove-permissions" title="Permanent link">&para;</a></h3>
+<p>Filter and remove specific permissions from the current role:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Remove by pattern</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+
+<span class="c1"># Remove by type</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter-type<span class="w"> </span>data
+
+<span class="c1"># Combined filtering</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
+
+<span class="c1"># Remove dangerous operations</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*deallocate*&quot;</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</code></pre></div>
+<p><strong>Features:</strong>
+- Same filtering syntax as merge
+- Safe removal (won't affect unmatched permissions)
+- Can be called multiple times</p>
+<h3 id="7-load-and-save-local-roles">✅ 7. Load and Save Local Roles<a class="headerlink" href="#7-load-and-save-local-roles" title="Permanent link">&para;</a></h3>
+<p>Persist role definitions locally for version control:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load from default directory</span>
+custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+
+<span class="c1"># Load from custom directory</span>
+custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--role-dir<span class="w"> </span>./archive
+
+<span class="c1"># Save to default directory</span>
+custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+
+<span class="c1"># Save to custom location</span>
+custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--output<span class="w"> </span>./roles/my-role.json
+
+<span class="c1"># Overwrite existing</span>
+custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--overwrite
+</code></pre></div>
+<p><strong>Features:</strong>
+- JSON-based storage
+- Auto-generated filenames
+- Preserves metadata (timestamps, IDs)
+- Overwrite protection</p>
+<h3 id="8-publish-to-azure">✅ 8. Publish to Azure<a class="headerlink" href="#8-publish-to-azure" title="Permanent link">&para;</a></h3>
+<p>Deploy created/modified roles directly to Azure:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Publish simple</span>
+custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+
+<span class="c1"># Publish with specific subscription</span>
+custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--subscription-id<span class="w"> </span><span class="s2">&quot;xxxxx-xxxxx&quot;</span>
+</code></pre></div>
+<p><strong>Features:</strong>
+- Direct Azure deployment
+- Automatic subscription detection
+- Role versioning support
+- Error handling and validation</p>
+<h3 id="9-list-and-view-roles">✅ 9. List and View Roles<a class="headerlink" href="#9-list-and-view-roles" title="Permanent link">&para;</a></h3>
+<p>Browse and inspect local and Azure roles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List all local roles</span>
+custom-role-designer<span class="w"> </span>list
+
+<span class="c1"># View specific role details</span>
+custom-role-designer<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+
+<span class="c1"># List Azure roles</span>
+custom-role-designer<span class="w"> </span>list-azure
+
+<span class="c1"># View current role in detail</span>
+custom-role-designer<span class="w"> </span>view
+
+<span class="c1"># Show all permissions (no truncation)</span>
+custom-role-designer<span class="w"> </span>view<span class="w"> </span>--all
+</code></pre></div>
+<p><strong>Features:</strong>
+- Formatted table output
+- Permission counts
+- Truncation for readability
+- Full details on demand</p>
+<h3 id="10-interactive-mode">✅ 10. Interactive Mode<a class="headerlink" href="#10-interactive-mode" title="Permanent link">&para;</a></h3>
+<p>Full-featured interactive CLI menu:</p>
+<div class="highlight"><pre><span></span><code>custom-role-designer
+</code></pre></div>
+<p><strong>Features:</strong>
+- Menu-driven interface
+- Command history
+- Real-time role status display
+- Help system</p>
+<h2 id="advanced-usage-patterns">Advanced Usage Patterns<a class="headerlink" href="#advanced-usage-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-incremental-permission-building">Pattern 1: Incremental Permission Building<a class="headerlink" href="#pattern-1-incremental-permission-building" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start with empty role</span>
+custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;BuildingRole&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Incrementally built&quot;</span>
+
+<span class="c1"># Add read-only permissions</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;reader&quot;</span>
+
+<span class="c1"># Add specific data access</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-dev&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*Blob*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+
+<span class="c1"># Add storage management (but not delete)</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;storage-admin&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</code></pre></div>
+<h3 id="pattern-2-role-specialization-from-broad-base">Pattern 2: Role Specialization from Broad Base<a class="headerlink" href="#pattern-2-role-specialization-from-broad-base" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start with contributor-like permissions</span>
+custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;WebDeveloper&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Web developer permissions&quot;</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;contributor&quot;</span>
+
+<span class="c1"># Remove unnecessary resources</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Compute*&quot;</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Network*&quot;</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Sql*&quot;</span>
+
+<span class="c1"># Remove dangerous operations</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</code></pre></div>
+<h3 id="pattern-3-role-combination-for-teams">Pattern 3: Role Combination for Teams<a class="headerlink" href="#pattern-3-role-combination-for-teams" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Combine multiple specialized roles</span>
+custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;CloudOpsTeam&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Combined CloudOps permissions&quot;</span>
+
+<span class="c1"># Combine DevOps, Infrastructure, and Monitoring</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;devops-developer,infrastructure-admin,monitoring-reader&quot;</span>
+
+<span class="c1"># Remove conflicts/sensitive ops</span>
+custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</code></pre></div>
+<h3 id="pattern-4-environment-specific-roles">Pattern 4: Environment-Specific Roles<a class="headerlink" href="#pattern-4-environment-specific-roles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Development role - permissive</span>
+custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEng-Dev&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Dev environment&quot;</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
+
+<span class="c1"># Production role - restrictive</span>
+custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEng-Prod&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Prod environment&quot;</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;data-reader&quot;</span>
+custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;pipeline-operator&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Pipeline*&quot;</span>
+</code></pre></div>
+<h2 id="command-reference">Command Reference<a class="headerlink" href="#command-reference" title="Permanent link">&para;</a></h2>
+<h3 id="global-options">Global Options<a class="headerlink" href="#global-options" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>--help<span class="w">          </span>Show<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>any<span class="w"> </span><span class="nb">command</span>
+--version<span class="w">       </span>Show<span class="w"> </span>version<span class="w"> </span>information
+</code></pre></div>
+<h3 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create</code></td>
+<td>Create new role</td>
+<td><code>--name</code>, <code>--description</code>, <code>--subscription-id</code></td>
+</tr>
+<tr>
+<td><code>load</code></td>
+<td>Load existing role</td>
+<td><code>--name</code>, <code>--role-dir</code></td>
+</tr>
+<tr>
+<td><code>merge</code></td>
+<td>Merge permissions</td>
+<td><code>--roles</code>, <code>--filter</code>, <code>--filter-type</code></td>
+</tr>
+<tr>
+<td><code>remove</code></td>
+<td>Remove permissions</td>
+<td><code>--filter</code>, <code>--filter-type</code></td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td>List roles</td>
+<td><code>--name</code>, <code>--role-dir</code></td>
+</tr>
+<tr>
+<td><code>list-azure</code></td>
+<td>List Azure roles</td>
+<td><code>--subscription-id</code></td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td>Save role locally</td>
+<td><code>--name</code>, <code>--output</code>, <code>--overwrite</code></td>
+</tr>
+<tr>
+<td><code>publish</code></td>
+<td>Publish to Azure</td>
+<td><code>--name</code>, <code>--subscription-id</code></td>
+</tr>
+<tr>
+<td><code>view</code></td>
+<td>View current role</td>
+<td><code>--all</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="file-structure">File Structure<a class="headerlink" href="#file-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>azure-custom-role-tool/
+├── README.md                        # Quick start guide
+├── PLATFORM_ENGINEER_GUIDE.md       # Detailed usage guide
+├── requirements.txt                 # Python dependencies
+├── .env.example                     # Environment template
+├── setup.sh                         # Setup script
+├── .gitignore                       # Git ignore rules
+│
+├── custom_role_designer.py          # Main CLI tool
+├── role_manager.py                  # Role management logic
+├── permission_filter.py             # Filtering utilities
+├── azure_client.py                  # Azure SDK integration
+├── tests.py                         # Unit tests
+│
+├── examples/                        # Example role definitions
+│   ├── junior-developer.json
+│   ├── senior-developer.json
+│   └── devops-developer.json
+│
+├── roles/                           # Local saved roles
+└── tests/                           # Test suite
+</code></pre></div>
+<h2 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h2>
+<h3 id="role-definition-json">Role Definition (JSON)<a class="headerlink" href="#role-definition-json" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Custom Role Name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;IsCustom&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Role description&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CustomRole&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;custom-xxxxx&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Microsoft.*/*/read&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;NotActions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Microsoft.Compute/*/delete&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;DataActions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Microsoft.Storage/storageAccounts/blobServices/containers/blobs/*&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;NotDataActions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;AssignableScopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;CreatedOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;UpdatedOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-01T00:00:00&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="action-categories">Action Categories<a class="headerlink" href="#action-categories" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Actions</strong>: Control plane operations</li>
+<li><strong>NotActions</strong>: Control plane operations to exclude</li>
+<li><strong>DataActions</strong>: Data plane operations</li>
+<li><strong>NotDataActions</strong>: Data plane operations to exclude</li>
+</ul>
+<h2 id="filtering-syntax-reference">Filtering Syntax Reference<a class="headerlink" href="#filtering-syntax-reference" title="Permanent link">&para;</a></h2>
+<h3 id="string-patterns">String Patterns<a class="headerlink" href="#string-patterns" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Matches</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Exact</code></td>
+<td>Exact match</td>
+<td><code>Microsoft.Storage/storageAccounts/read</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>Wildcard</td>
+<td><code>Microsoft.Storage*</code></td>
+</tr>
+<tr>
+<td><code>prefix*</code></td>
+<td>Starts with</td>
+<td><code>Microsoft.Compute*</code></td>
+</tr>
+<tr>
+<td><code>*suffix</code></td>
+<td>Ends with</td>
+<td><code>*/read</code></td>
+</tr>
+<tr>
+<td><code>*middle*</code></td>
+<td>Contains</td>
+<td><code>*blobs*</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="type-filters">Type Filters<a class="headerlink" href="#type-filters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>control</code> - Management plane only</li>
+<li><code>data</code> - Data plane only</li>
+<li>(omitted) - Both types</li>
+</ul>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="common-errors">Common Errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>No current role</code></td>
+<td>Not created/loaded</td>
+<td>Create or load a role first</td>
+</tr>
+<tr>
+<td><code>Role not found</code></td>
+<td>File doesn't exist</td>
+<td>Check file path and name</td>
+</tr>
+<tr>
+<td><code>AZURE_SUBSCRIPTION_ID not set</code></td>
+<td>Missing config</td>
+<td>Set env var or login to Azure CLI</td>
+</tr>
+<tr>
+<td><code>Failed to authenticate</code></td>
+<td>Auth issue</td>
+<td>Run <code>az login</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Merge many roles</strong>: Efficient deduplication (&lt; 1s for typical roles)</li>
+<li><strong>Save/load</strong>: Fast JSON I/O (&lt; 100ms)</li>
+<li><strong>Filter large roles</strong>: Regex matching optimized (&lt; 50ms)</li>
+<li><strong>Azure operations</strong>: Depends on network (1-10s typical)</li>
+</ul>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Never commit secrets</strong>: Use <code>.env.example</code> template</li>
+<li><strong>Review paths</strong>: Always use <code>--all</code> flag before publishing</li>
+<li><strong>Role naming</strong>: Follow company standards</li>
+<li><strong>Audit logging</strong>: Track all role publications</li>
+<li><strong>Version control</strong>: Commit role files to Git</li>
+</ol>
+<h2 id="integration-examples">Integration Examples<a class="headerlink" href="#integration-examples" title="Permanent link">&para;</a></h2>
+<h3 id="cicd-pipeline">CI/CD Pipeline<a class="headerlink" href="#cicd-pipeline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy Custom Role</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">custom-role-designer load --name &quot;prod-role&quot;</span>
+<span class="w">    </span><span class="no">custom-role-designer view --all</span>
+<span class="w">    </span><span class="no">custom-role-designer publish --name &quot;prod-role&quot;</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">AZURE_SUBSCRIPTION_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_SUB }}</span>
+</code></pre></div>
+<h3 id="script-automation">Script Automation<a class="headerlink" href="#script-automation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="k">for</span><span class="w"> </span>role<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>roles/*.json<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>custom-role-designer<span class="w"> </span>load<span class="w"> </span>--role-dir<span class="w"> </span>roles<span class="w"> </span>--name<span class="w"> </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$role</span><span class="w"> </span>.json<span class="k">)</span>
+<span class="w">  </span>custom-role-designer<span class="w"> </span>publish
+<span class="k">done</span>
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Permissions not merging</strong>: Check filter pattern with <code>list --name</code></li>
+<li><strong>File already exists</strong>: Use <code>--overwrite</code> flag</li>
+<li><strong>Azure publish fails</strong>: Verify subscription ID and permissions</li>
+<li><strong>Tool crashes</strong>: Check Python version (3.8+) and dependencies</li>
+</ul>
+<hr />
+<p><strong>Tool Version</strong>: 1.0<br />
+<strong>Last Updated</strong>: January 2024</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024 Platform Engineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
