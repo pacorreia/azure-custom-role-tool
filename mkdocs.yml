@@ -1,7 +1,7 @@
 site_name: Azure Custom Role Designer
 site_description: Comprehensive documentation for the Azure Custom Role Designer CLI tool
 site_author: Platform Engineering Team
-site_url: https://github.com/pacorreia/azure-custom-role-tool
+site_url: https://pacorreia.github.io/azure-custom-role-tool/
 
 # Style and theme adapted from vaults-syncer
 
