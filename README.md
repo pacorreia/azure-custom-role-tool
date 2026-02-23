@@ -3,7 +3,7 @@
 [![Python CI](https://github.com/pacorreia/azure-custom-role-tool/workflows/Python%20CI/badge.svg)](https://github.com/pacorreia/azure-custom-role-tool/actions/workflows/python-ci.yml)
 [![Documentation](https://github.com/pacorreia/azure-custom-role-tool/workflows/Deploy%20Documentation/badge.svg)](https://pacorreia.github.io/azure-custom-role-tool/)
 [![Coverage](https://img.shields.io/endpoint?url=https://pacorreia.github.io/azure-custom-role-tool/badges/coverage.json)](https://pacorreia.github.io/azure-custom-role-tool/)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 A powerful CLI tool for platform engineers to create, update, and manage Azure custom roles with granular control over permissions.
