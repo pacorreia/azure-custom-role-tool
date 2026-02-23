@@ -117,12 +117,14 @@ def _load_azure_role(name: str, subscription_id: Optional[str]) -> Optional[Azur
 # ============================================================================
 
 
-@click.group()
+@click.group(invoke_without_command=True)
 @click.version_option(version=__version__, prog_name="custom-role-designer")
 @click.pass_context
 def cli(ctx):
     """Azure Custom Role Designer - Create and manage Azure custom roles."""
-    pass
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
+        ctx.exit(0)
 
 
 @cli.command()
