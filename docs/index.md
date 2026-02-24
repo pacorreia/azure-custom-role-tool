@@ -17,10 +17,10 @@
 pip install -e .
 
 # Enter interactive mode
-custom-role-designer console
+azure-custom-role-tool console
 
 # Or use commands directly
-custom-role-designer create --name "MyRole" --description "My custom role"
+azure-custom-role-tool create --name "MyRole" --description "My custom role"
 ```
 
 ## Core Features
@@ -62,7 +62,7 @@ For developers and contributors:
 ## Key Concepts
 
 ### Interactive Console Mode
-Run `custom-role-designer console` to enter an interactive shell with:
+Run `azure-custom-role-tool console` to enter an interactive shell with:
 - Command history navigation
 - Multi-line paste support
 - Real-time role state feedback

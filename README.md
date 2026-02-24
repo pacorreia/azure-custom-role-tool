@@ -53,15 +53,15 @@ pip install .
 
 ```bash
 # Check version
-custom-role-designer --version
+azure-custom-role-tool --version
 
 # Interactive mode
-custom-role-designer
+azure-custom-role-tool
 
 # Or use specific commands
-custom-role-designer create --name "My Custom Role" --description "Custom role for my team"
-custom-role-designer merge --roles "devops-developer,reader" --filter "Storage"
-custom-role-designer remove --filter "Delete"
+azure-custom-role-tool create --name "My Custom Role" --description "Custom role for my team"
+azure-custom-role-tool merge --roles "devops-developer,reader" --filter "Storage"
+azure-custom-role-tool remove --filter "Delete"
 ```
 
 ### Using the module directly
@@ -87,7 +87,7 @@ role = manager.create_role("MyRole", "My custom role")
 Run the tool without arguments or use the `console` command to enter console mode:
 
 ```bash
-custom-role-designer console
+azure-custom-role-tool console
 ```
 
 This launches an interactive menu where you can:
@@ -100,7 +100,7 @@ This launches an interactive menu where you can:
 
 **Interactive Features:**
 - **Command History**: Use arrow keys (↑/↓) to navigate through previous commands
-- **Persistent History**: Command history is saved to `~/.custom-role-designer-history` and persists across sessions
+- **Persistent History**: Command history is saved to `~/.azure-custom-role-tool-history` and persists across sessions
 - **Context Help**: Type `help <command>` to see detailed help for any command
 - **State Preservation**: The current role remains loaded across multiple commands within the session
 
@@ -108,28 +108,28 @@ This launches an interactive menu where you can:
 
 ```bash
 # Create a new role
-custom-role-designer create --name "Name" --description "Description" --subscription-id xx-xx-xx
+azure-custom-role-tool create --name "Name" --description "Description" --subscription-id xx-xx-xx
 
 # Start from existing role
-custom-role-designer load --name "existing-role"
+azure-custom-role-tool load --name "existing-role"
 
 # Merge multiple roles
-custom-role-designer merge --roles role1,role2,role3 --filter "Storage" --filter-type control
+azure-custom-role-tool merge --roles role1,role2,role3 --filter "Storage" --filter-type control
 
 # Remove permissions
-custom-role-designer remove --filter "*/Delete/*" --filter-type data
+azure-custom-role-tool remove --filter "*/Delete/*" --filter-type data
 
 # List available roles
-custom-role-designer list
+azure-custom-role-tool list
 
 # View role details
-custom-role-designer view --name "role-name"
+azure-custom-role-tool view --name "role-name"
 
 # Save role locally
-custom-role-designer save --name "role-name" --output roles/my-role.json
+azure-custom-role-tool save --name "role-name" --output roles/my-role.json
 
 # Publish to Azure
-custom-role-designer publish --name "role-name"
+azure-custom-role-tool publish --name "role-name"
 ```
 
 ## Configuration

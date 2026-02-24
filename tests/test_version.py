@@ -30,7 +30,7 @@ def test_cli_version_option():
 
     assert result.exit_code == 0
     assert __version__ in result.output
-    assert "custom-role-designer" in result.output
+    assert "azure-custom-role-tool" in result.output
 
 
 def test_cli_version_option_with_command():

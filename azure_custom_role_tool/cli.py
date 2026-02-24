@@ -122,7 +122,7 @@ def _load_azure_role(
 
 
 @click.group(invoke_without_command=True)
-@click.version_option(version=__version__, prog_name="custom-role-designer")
+@click.version_option(version=__version__, prog_name="azure-custom-role-tool")
 @click.pass_context
 def cli(ctx):
     """Azure Custom Role Designer - Create and manage Azure custom roles."""
@@ -1082,7 +1082,7 @@ def interactive_mode():
     show_help()
 
     # Set up command history
-    history_file = Path.home() / ".custom-role-designer-history"
+    history_file = Path.home() / ".azure-custom-role-tool-history"
     history = FileHistory(str(history_file))
 
     # Define prompt style

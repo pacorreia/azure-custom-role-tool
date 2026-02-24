@@ -50,7 +50,7 @@ Repository = "https://github.com/pacorreia/azure-custom-role-tool.git"
 Documentation = "https://github.com/pacorreia/azure-custom-role-tool"
 
 [project.scripts]
-custom-role-designer = "azure_custom_role_tool.cli:main"
+azure-custom-role-tool = "azure_custom_role_tool.cli:main"
 
 [tool.setuptools]
 packages = ["azure_custom_role_tool"]
