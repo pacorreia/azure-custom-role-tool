@@ -3,7 +3,11 @@ from pathlib import Path
 from click.testing import CliRunner
 
 from azure_custom_role_tool import cli
-from azure_custom_role_tool.role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition
+from azure_custom_role_tool.role_manager import (
+    RoleManager,
+    AzureRoleDefinition,
+    PermissionDefinition,
+)
 
 
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
@@ -54,13 +58,21 @@ def test_merge_with_missing_role_warning(monkeypatch, tmp_path: Path):
     source = AzureRoleDefinition(
         Name="Source Role",
         Description="Source",
-        Permissions=[PermissionDefinition(Actions=["Microsoft.Storage/storageAccounts/read"])],
+        Permissions=[
+            PermissionDefinition(Actions=["Microsoft.Storage/storageAccounts/read"])
+        ],
     )
     manager.save_to_roles_dir(source, overwrite=True)
 
     result = runner.invoke(
         cli.cli,
-        ["merge", "--roles", "source-role,missing-role", "--filter", "Microsoft.Storage/*"],
+        [
+            "merge",
+            "--roles",
+            "source-role,missing-role",
+            "--filter",
+            "Microsoft.Storage/*",
+        ],
     )
 
     assert result.exit_code == 0

@@ -6,7 +6,11 @@ import pytest
 from click.testing import CliRunner
 
 from azure_custom_role_tool import cli
-from azure_custom_role_tool.role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition
+from azure_custom_role_tool.role_manager import (
+    RoleManager,
+    AzureRoleDefinition,
+    PermissionDefinition,
+)
 
 
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
@@ -24,7 +28,9 @@ def test_create_error(monkeypatch, tmp_path: Path):
 
     monkeypatch.setattr(manager, "create_role", raise_error)
 
-    result = runner.invoke(cli.cli, ["create", "--name", "Role", "--description", "Desc"])
+    result = runner.invoke(
+        cli.cli, ["create", "--name", "Role", "--description", "Desc"]
+    )
     assert result.exit_code != 0
     assert "Error" in result.output
 
@@ -81,7 +87,9 @@ def test_save_file_exists_error(monkeypatch, tmp_path: Path):
     file_path = tmp_path / "save-role.json"
     file_path.write_text("{}")
 
-    result = runner.invoke(cli.cli, ["save", "--name", "save-role", "--output", str(file_path)])
+    result = runner.invoke(
+        cli.cli, ["save", "--name", "save-role", "--output", str(file_path)]
+    )
     assert result.exit_code != 0
     assert "File already exists" in result.output
 
@@ -99,7 +107,9 @@ def test_publish_error(monkeypatch, tmp_path: Path):
             raise RuntimeError("boom")
 
     monkeypatch.setattr(cli, "AzureClient", FailingAzureClient)
-    monkeypatch.setattr(cli, "current_subscription", "sub-123")  # Set subscription context
+    monkeypatch.setattr(
+        cli, "current_subscription", "sub-123"
+    )  # Set subscription context
 
     result = runner.invoke(cli.cli, ["publish", "--name", "Publish Role"])
     assert result.exit_code != 0
@@ -118,7 +128,9 @@ def test_list_azure_empty_and_error(monkeypatch, tmp_path: Path):
             return []
 
     monkeypatch.setattr(cli, "AzureClient", EmptyAzureClient)
-    monkeypatch.setattr(cli, "current_subscription", "sub-123")  # Set subscription context
+    monkeypatch.setattr(
+        cli, "current_subscription", "sub-123"
+    )  # Set subscription context
     result = runner.invoke(cli.cli, ["list-azure"])
     assert result.exit_code == 0
     assert "No custom roles found" in result.output
@@ -161,29 +173,34 @@ def test_print_grouped_permissions_truncation():
     output = capture.get()
     # Remove ANSI codes to check the actual text
     import re
-    clean_output = re.sub(r'\x1b\[[0-9;]*m', '', output)
+
+    clean_output = re.sub(r"\x1b\[[0-9;]*m", "", output)
     assert "and 1 more" in clean_output
 
 
 def test_interactive_mode_error_paths(monkeypatch):
-    commands = iter([
-        "",
-        "badcmd",
-        "badcmd",
-        "badcmd",
-        "badcmd",
-        "exit",
-    ])
+    commands = iter(
+        [
+            "",
+            "badcmd",
+            "badcmd",
+            "badcmd",
+            "badcmd",
+            "exit",
+        ]
+    )
 
     def fake_prompt(*args, **kwargs):
         return next(commands)
 
-    errors = iter([
-        click.ClickException("bad"),
-        click.exceptions.Exit(),
-        SystemExit(1),
-        Exception("boom"),
-    ])
+    errors = iter(
+        [
+            click.ClickException("bad"),
+            click.exceptions.Exit(),
+            SystemExit(1),
+            Exception("boom"),
+        ]
+    )
 
     def fake_cli_main(*args, **kwargs):
         raise next(errors)

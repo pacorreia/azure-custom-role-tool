@@ -6,7 +6,11 @@ import pytest
 from click.testing import CliRunner
 
 from azure_custom_role_tool import cli
-from azure_custom_role_tool.role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition
+from azure_custom_role_tool.role_manager import (
+    RoleManager,
+    AzureRoleDefinition,
+    PermissionDefinition,
+)
 
 
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
@@ -43,7 +47,9 @@ def test_merge_unexpected_error(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(manager, "load_from_name", load_role)
     monkeypatch.setattr(manager, "merge_roles", raise_error)
 
-    result = runner.invoke(cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(
+        cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/*"]
+    )
     assert result.exit_code != 0
     assert "Error" in result.output
 
@@ -99,7 +105,9 @@ def test_publish_unexpected_error(monkeypatch, tmp_path: Path):
             raise RuntimeError("boom")
 
     monkeypatch.setattr(cli, "AzureClient", ErrorAzureClient)
-    monkeypatch.setattr(cli, "current_subscription", "sub-123")  # Set subscription context
+    monkeypatch.setattr(
+        cli, "current_subscription", "sub-123"
+    )  # Set subscription context
 
     result = runner.invoke(cli.cli, ["publish", "--name", "Publish"])
     assert result.exit_code != 0
@@ -282,6 +290,7 @@ def test_unknown_command_in_console_mode(monkeypatch):
     output = capture.get()
     # Remove ANSI codes for cleaner assertion
     import re
-    clean_output = re.sub(r'\x1b\[[0-9;]*m', '', output)
+
+    clean_output = re.sub(r"\x1b\[[0-9;]*m", "", output)
     assert "Unknown command" in clean_output
     assert "help" in clean_output

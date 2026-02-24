@@ -14,7 +14,7 @@ from .azure_client import AzureClient
 
 __all__ = [
     "RoleManager",
-    "AzureRoleDefinition", 
+    "AzureRoleDefinition",
     "PermissionDefinition",
     "PermissionFilter",
     "PermissionType",

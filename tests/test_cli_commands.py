@@ -3,7 +3,11 @@ from pathlib import Path
 from click.testing import CliRunner
 
 from azure_custom_role_tool import cli
-from azure_custom_role_tool.role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition
+from azure_custom_role_tool.role_manager import (
+    RoleManager,
+    AzureRoleDefinition,
+    PermissionDefinition,
+)
 
 
 class DummyAzureClient:
@@ -36,7 +40,9 @@ def test_create_load_save_view_list(monkeypatch, tmp_path: Path):
     runner = CliRunner()
     manager = configure_manager(monkeypatch, tmp_path)
 
-    result = runner.invoke(cli.cli, ["create", "--name", "Test Role", "--description", "Desc"])
+    result = runner.invoke(
+        cli.cli, ["create", "--name", "Test Role", "--description", "Desc"]
+    )
     assert result.exit_code == 0
 
     save_result = runner.invoke(cli.cli, ["save", "--name", "test-role", "--overwrite"])
@@ -65,11 +71,15 @@ def test_merge_command(monkeypatch, tmp_path: Path):
     source = AzureRoleDefinition(
         Name="Source Role",
         Description="Source",
-        Permissions=[PermissionDefinition(Actions=["Microsoft.Storage/storageAccounts/read"])],
+        Permissions=[
+            PermissionDefinition(Actions=["Microsoft.Storage/storageAccounts/read"])
+        ],
     )
     manager.save_to_roles_dir(source, overwrite=True)
 
-    result = runner.invoke(cli.cli, ["merge", "--roles", "source-role", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(
+        cli.cli, ["merge", "--roles", "source-role", "--filter", "Microsoft.Storage/*"]
+    )
 
     assert result.exit_code == 0
     assert "Merged permissions" in result.output
@@ -94,7 +104,9 @@ def test_publish_and_list_azure(monkeypatch, tmp_path: Path):
     manager.create_role("Publish Role", "Desc")
 
     monkeypatch.setattr(cli, "AzureClient", DummyAzureClient)
-    monkeypatch.setattr(cli, "current_subscription", "sub-123")  # Set subscription context
+    monkeypatch.setattr(
+        cli, "current_subscription", "sub-123"
+    )  # Set subscription context
 
     publish_result = runner.invoke(cli.cli, ["publish", "--name", "Publish Role"])
     assert publish_result.exit_code == 0

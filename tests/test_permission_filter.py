@@ -23,7 +23,10 @@ def test_filter_by_type_data_plane():
 
     data_actions = PermissionFilter.filter_by_type(actions, PermissionType.DATA)
 
-    assert "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read" in data_actions
+    assert (
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+        in data_actions
+    )
     assert "Microsoft.Compute/virtualMachines/read" not in data_actions
 
 
@@ -35,9 +38,15 @@ def test_classify_permissions_and_control_plane():
 
     classified = PermissionFilter.classify_permissions(actions)
 
-    assert "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read" in classified["data"]
+    assert (
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+        in classified["data"]
+    )
     assert "Microsoft.Compute/virtualMachines/read" in classified["control"]
-    assert PermissionFilter.is_control_plane("Microsoft.Compute/virtualMachines/read") is True
+    assert (
+        PermissionFilter.is_control_plane("Microsoft.Compute/virtualMachines/read")
+        is True
+    )
 
 
 def test_filter_by_string_invalid_regex():
@@ -64,4 +73,6 @@ def test_filter_permissions_combined():
         type_filter=PermissionType.DATA,
     )
 
-    assert filtered == ["Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"]
+    assert filtered == [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+    ]

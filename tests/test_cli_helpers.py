@@ -84,13 +84,15 @@ def test_show_help_and_command_help():
 
 
 def test_interactive_mode_commands(monkeypatch):
-    commands = iter([
-        "help",
-        "help load",
-        "!echo hi",
-        "shell pwd",
-        "exit",
-    ])
+    commands = iter(
+        [
+            "help",
+            "help load",
+            "!echo hi",
+            "shell pwd",
+            "exit",
+        ]
+    )
 
     def fake_prompt(*args, **kwargs):
         return next(commands)

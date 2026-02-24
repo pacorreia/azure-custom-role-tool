@@ -3,11 +3,16 @@ from types import SimpleNamespace
 import pytest
 
 from azure_custom_role_tool import azure_client
-from azure_custom_role_tool.role_manager import AzureRoleDefinition, PermissionDefinition
+from azure_custom_role_tool.role_manager import (
+    AzureRoleDefinition,
+    PermissionDefinition,
+)
 
 
 class DummyPermission:
-    def __init__(self, actions=None, not_actions=None, data_actions=None, not_data_actions=None):
+    def __init__(
+        self, actions=None, not_actions=None, data_actions=None, not_data_actions=None
+    ):
         self.actions = actions or []
         self.not_actions = not_actions or []
         self.data_actions = data_actions or []
@@ -24,7 +29,16 @@ class DummyRoleDefinitionModel:
 
 
 class DummyRole:
-    def __init__(self, role_id="role-id", name="Role", description="Desc", type="CustomRole", permissions=None, assignable_scopes=None, role_name=None):
+    def __init__(
+        self,
+        role_id="role-id",
+        name="Role",
+        description="Desc",
+        type="CustomRole",
+        permissions=None,
+        assignable_scopes=None,
+        role_name=None,
+    ):
         self.id = role_id
         self.name = name
         self.role_name = role_name or name  # role_name is the display name
@@ -110,7 +124,9 @@ def test_create_and_update_custom_role(monkeypatch):
         Permissions=[
             PermissionDefinition(
                 Actions=["Microsoft.Storage/storageAccounts/read"],
-                DataActions=["Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"],
+                DataActions=[
+                    "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+                ],
             )
         ],
         AssignableScopes=["/subscriptions/test-sub"],

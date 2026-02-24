@@ -1,6 +1,10 @@
 from pathlib import Path
 
-from azure_custom_role_tool.role_manager import RoleManager, PermissionDefinition, AzureRoleDefinition
+from azure_custom_role_tool.role_manager import (
+    RoleManager,
+    PermissionDefinition,
+    AzureRoleDefinition,
+)
 from azure_custom_role_tool.permission_filter import PermissionType
 
 
@@ -46,7 +50,9 @@ def test_merge_roles_with_filters(tmp_path: Path):
                 "Microsoft.Storage/storageAccounts/read",
                 "Microsoft.Compute/virtualMachines/read",
             ],
-            DataActions=["Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"],
+            DataActions=[
+                "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+            ],
         )
     ]
 
@@ -58,7 +64,9 @@ def test_merge_roles_with_filters(tmp_path: Path):
 
     assert updated is target
     assert "Microsoft.Storage/storageAccounts/read" in updated.Permissions[0].Actions
-    assert "Microsoft.Compute/virtualMachines/read" not in updated.Permissions[0].Actions
+    assert (
+        "Microsoft.Compute/virtualMachines/read" not in updated.Permissions[0].Actions
+    )
 
 
 def test_remove_permissions(tmp_path: Path):
@@ -68,7 +76,9 @@ def test_remove_permissions(tmp_path: Path):
     manager.current_role.Permissions = [
         PermissionDefinition(
             Actions=["Microsoft.Storage/storageAccounts/read"],
-            DataActions=["Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"],
+            DataActions=[
+                "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+            ],
         )
     ]
 
@@ -89,7 +99,7 @@ def test_list_roles_missing_dir(tmp_path: Path):
 def test_merge_into_role_with_existing_permissions(tmp_path: Path):
     """Test merging into a role that already has permissions (reproduces user bug)."""
     manager = RoleManager(roles_dir=tmp_path)
-    
+
     # Create a role with existing permissions (like Reader)
     target = manager.create_role("Target", "Target role with existing perms")
     target.Permissions = [
@@ -98,7 +108,7 @@ def test_merge_into_role_with_existing_permissions(tmp_path: Path):
         )
     ]
     manager.current_role = target
-    
+
     # Create source role to merge (like User Access Administrator)
     source = AzureRoleDefinition(
         Name="Source",
@@ -112,13 +122,19 @@ def test_merge_into_role_with_existing_permissions(tmp_path: Path):
             )
         ],
     )
-    
+
     # Merge source into target
     updated = manager.merge_roles([source])
-    
+
     # Verify BOTH sets of permissions are present
     assert updated is target
     assert len(updated.Permissions) == 1
     assert "Microsoft.Authorization/*/read" in updated.Permissions[0].Actions
-    assert "Microsoft.Authorization/roleAssignments/write" in updated.Permissions[0].Actions
-    assert "Microsoft.Authorization/roleAssignments/delete" in updated.Permissions[0].Actions
+    assert (
+        "Microsoft.Authorization/roleAssignments/write"
+        in updated.Permissions[0].Actions
+    )
+    assert (
+        "Microsoft.Authorization/roleAssignments/delete"
+        in updated.Permissions[0].Actions
+    )
