@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "A powerful CLI tool for creating and managing Azure custom roles"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "Proprietary"}
+license = "Proprietary"
 authors = [
     {name = "OI Technologies Platform Engineering", email = "platform-engineering@example.com"}
 ]
@@ -19,7 +19,6 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "License :: Other/Proprietary License",
     "Operating System :: OS Independent",
     "Topic :: System :: Systems Administration",
     "Development Status :: 4 - Beta",
