@@ -32,17 +32,44 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Get Versioning Data
-        id: versioning
-        uses: Soumeh/Auto-Versioning@main
-      - name: Create Release
-        uses: meeDamian/github-release@2.0
+      - name: Auto versioning
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        id: version
+        uses: paulhatch/semantic-version@v5.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: ${{ github.event.head_commit.message }}
-          tag: ${{ steps.versioning.outputs.tag }}
-          body: "${{ steps.versioning.outputs.changelog }}"
-          gzip: false
+          tag_prefix: "v"
+          major_pattern: "(MAJOR|BREAKING CHANGE|\\[major\\])"
+          major_regexp_flags: "gi"
+          minor_pattern: "(MINOR|feat:|feature:|\\[minor\\])"
+          minor_regexp_flags: "gi"
+          version_format: "${major}.${minor}.${patch}"
+          bump_each_commit: false
+          search_commit_body: true
+          change_path: "."
+          enable_prerelease_mode: false
+
+      - name: Create and push tag
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.version.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if tag already exists locally
+          if git rev-parse "${VERSION}" >/dev/null 2>&1; then
+            echo "⚠️  Tag ${VERSION} already exists locally, deleting..."
+            git tag -d "${VERSION}"
+          fi
+          
+          git tag -a "${VERSION}" -m "Release ${VERSION}"
+          
+          # Use authenticated push to ensure workflows are triggered (force push to overwrite if needed)
+          git push "https://github-actions[bot]:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" "${VERSION}" --force
+          
+          echo "✅ Created and pushed tag: ${VERSION}"
 
   test:
     name: Test Python ${{ matrix.python-version }}
