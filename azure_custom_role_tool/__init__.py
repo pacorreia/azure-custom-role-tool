@@ -4,7 +4,7 @@ Azure Custom Role Tool
 A powerful CLI tool for platform engineers to create, update, and manage Azure custom roles.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.0"  # Trigger version bump: trivial comment
 __author__ = "OI Technologies Platform Engineering"
 __license__ = "Internal"
 
