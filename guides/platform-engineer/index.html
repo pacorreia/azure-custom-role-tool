@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -1842,7 +1842,7 @@
 </span></code></pre></div>
 <h3 id="verify-installation">Verify Installation<a class="headerlink" href="#verify-installation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><span class="c1"># Check that the command is available</span>
-</span><span id="__span-1-2">custom-role-designer<span class="w"> </span>--help
+</span><span id="__span-1-2">azure-custom-role-tool<span class="w"> </span>--help
 </span><span id="__span-1-3">
 </span><span id="__span-1-4"><span class="c1"># Or use it through Python</span>
 </span><span id="__span-1-5">python<span class="w"> </span>-m<span class="w"> </span>azure_custom_role_tool<span class="w"> </span>--help
@@ -1875,12 +1875,12 @@
 </span></code></pre></div>
 <h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
 <h3 id="interactive-mode">Interactive Mode<a class="headerlink" href="#interactive-mode" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-6-1">custom-role-designer<span class="w"> </span>console
+<div class="highlight"><pre><span></span><code><span id="__span-6-1">azure-custom-role-tool<span class="w"> </span>console
 </span></code></pre></div>
 <p>This launches an interactive menu where you can navigate through all operations.</p>
 <p><strong>Interactive Mode Features:</strong>
 - Use arrow keys (↑/↓) to recall and navigate through previous commands
-- Command history persists across sessions (stored in <code>~/.custom-role-designer-history</code>)
+- Command history persists across sessions (stored in <code>~/.azure-custom-role-tool-history</code>)
 - Type <code>help &lt;command&gt;</code> for detailed help on specific commands
 - The current role stays loaded throughout the session, making it easy to chain operations</p>
 <p><strong>Tips for Interactive Mode:</strong>
@@ -1891,140 +1891,140 @@
 <h3 id="command-line-mode">Command Line Mode<a class="headerlink" href="#command-line-mode" title="Permanent link">&para;</a></h3>
 <h4 id="create-a-new-role">Create a New Role<a class="headerlink" href="#create-a-new-role" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><span class="c1"># Start with empty role</span>
-</span><span id="__span-7-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My Custom Role&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Custom role for my team&quot;</span>
+</span><span id="__span-7-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My Custom Role&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Custom role for my team&quot;</span>
 </span></code></pre></div>
 <h4 id="load-existing-role">Load Existing Role<a class="headerlink" href="#load-existing-role" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><span class="c1"># Load from local file</span>
-</span><span id="__span-8-2">custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;devops-developer&quot;</span>
+</span><span id="__span-8-2">azure-custom-role-tool<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;devops-developer&quot;</span>
 </span><span id="__span-8-3">
 </span><span id="__span-8-4"><span class="c1"># Load from custom directory</span>
-</span><span id="__span-8-5">custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--role-dir<span class="w"> </span>/path/to/roles
+</span><span id="__span-8-5">azure-custom-role-tool<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--role-dir<span class="w"> </span>/path/to/roles
 </span></code></pre></div>
 <h4 id="view-role-details">View Role Details<a class="headerlink" href="#view-role-details" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><span class="c1"># Show summary</span>
-</span><span id="__span-9-2">custom-role-designer<span class="w"> </span>view
+</span><span id="__span-9-2">azure-custom-role-tool<span class="w"> </span>view
 </span><span id="__span-9-3">
 </span><span id="__span-9-4"><span class="c1"># Show all permissions (no truncation)</span>
-</span><span id="__span-9-5">custom-role-designer<span class="w"> </span>view<span class="w"> </span>--all
+</span><span id="__span-9-5">azure-custom-role-tool<span class="w"> </span>view<span class="w"> </span>--all
 </span></code></pre></div>
 <h4 id="save-role">Save Role<a class="headerlink" href="#save-role" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><span class="c1"># Save to default roles directory</span>
-</span><span id="__span-10-2">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+</span><span id="__span-10-2">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
 </span><span id="__span-10-3">
 </span><span id="__span-10-4"><span class="c1"># Save to custom location</span>
-</span><span id="__span-10-5">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--output<span class="w"> </span>/path/to/my-role.json
+</span><span id="__span-10-5">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--output<span class="w"> </span>/path/to/my-role.json
 </span><span id="__span-10-6">
 </span><span id="__span-10-7"><span class="c1"># Overwrite existing file</span>
-</span><span id="__span-10-8">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--overwrite
+</span><span id="__span-10-8">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span><span class="w"> </span>--overwrite
 </span></code></pre></div>
 <h2 id="advanced-examples">Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permanent link">&para;</a></h2>
 <h3 id="example-1-create-developer-role-from-scratch">Example 1: Create Developer Role from Scratch<a class="headerlink" href="#example-1-create-developer-role-from-scratch" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-11-1"><span class="c1"># Create new role</span>
-</span><span id="__span-11-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;App Developer&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Permissions for app development&quot;</span>
+</span><span id="__span-11-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;App Developer&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Permissions for app development&quot;</span>
 </span><span id="__span-11-3">
 </span><span id="__span-11-4"><span class="c1"># Merge read permissions from multiple roles</span>
-</span><span id="__span-11-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;junior-developer,reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*read*&quot;</span>
+</span><span id="__span-11-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;junior-developer,reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*read*&quot;</span>
 </span><span id="__span-11-6">
 </span><span id="__span-11-7"><span class="c1"># Remove delete operations</span>
-</span><span id="__span-11-8">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
+</span><span id="__span-11-8">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
 </span><span id="__span-11-9">
 </span><span id="__span-11-10"><span class="c1"># Save locally</span>
-</span><span id="__span-11-11">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;app-developer&quot;</span>
+</span><span id="__span-11-11">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;app-developer&quot;</span>
 </span><span id="__span-11-12">
 </span><span id="__span-11-13"><span class="c1"># Publish to Azure</span>
-</span><span id="__span-11-14">custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;app-developer&quot;</span>
+</span><span id="__span-11-14">azure-custom-role-tool<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;app-developer&quot;</span>
 </span></code></pre></div>
 <h3 id="example-2-cherry-pick-specific-permissions">Example 2: Cherry-pick Specific Permissions<a class="headerlink" href="#example-2-cherry-pick-specific-permissions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-12-1"><span class="c1"># Create new role</span>
-</span><span id="__span-12-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Storage Manager&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Manage Azure Storage&quot;</span>
+</span><span id="__span-12-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Storage Manager&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Manage Azure Storage&quot;</span>
 </span><span id="__span-12-3">
 </span><span id="__span-12-4"><span class="c1"># Merge only storage permissions from senior developer role</span>
-</span><span id="__span-12-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span>
+</span><span id="__span-12-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span>
 </span><span id="__span-12-6">
 </span><span id="__span-12-7"><span class="c1"># Add specific data plane permissions</span>
-</span><span id="__span-12-8">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;blobs/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</span><span id="__span-12-8">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;blobs/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
 </span><span id="__span-12-9">
 </span><span id="__span-12-10"><span class="c1"># Save and publish</span>
-</span><span id="__span-12-11">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;storage-manager&quot;</span><span class="w"> </span>--overwrite
-</span><span id="__span-12-12">custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;storage-manager&quot;</span>
+</span><span id="__span-12-11">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;storage-manager&quot;</span><span class="w"> </span>--overwrite
+</span><span id="__span-12-12">azure-custom-role-tool<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;storage-manager&quot;</span>
 </span></code></pre></div>
 <h3 id="example-3-merge-multiple-roles-with-filtering">Example 3: Merge Multiple Roles with Filtering<a class="headerlink" href="#example-3-merge-multiple-roles-with-filtering" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-13-1"><span class="c1"># Create new role</span>
-</span><span id="__span-13-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DevOps Manager&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Ops role for DevOps team&quot;</span>
+</span><span id="__span-13-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DevOps Manager&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Ops role for DevOps team&quot;</span>
 </span><span id="__span-13-3">
 </span><span id="__span-13-4"><span class="c1"># Merge control plane permissions from multiple roles</span>
-</span><span id="__span-13-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-13-6"><span class="w">  </span>--roles<span class="w"> </span><span class="s2">&quot;devops-developer,senior-developer,infrastructure-admin&quot;</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-13-7"><span class="w">  </span>--filter-type<span class="w"> </span>control
 </span><span id="__span-13-8">
 </span><span id="__span-13-9"><span class="c1"># Remove specific dangerous operations</span>
-</span><span id="__span-13-10">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
-</span><span id="__span-13-11">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*deallocate*&quot;</span>
+</span><span id="__span-13-10">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</span><span id="__span-13-11">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*deallocate*&quot;</span>
 </span><span id="__span-13-12">
 </span><span id="__span-13-13"><span class="c1"># Save</span>
-</span><span id="__span-13-14">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;devops-manager&quot;</span><span class="w"> </span>--overwrite
+</span><span id="__span-13-14">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;devops-manager&quot;</span><span class="w"> </span>--overwrite
 </span></code></pre></div>
 <h3 id="example-4-create-restricted-viewer-role">Example 4: Create Restricted Viewer Role<a class="headerlink" href="#example-4-create-restricted-viewer-role" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-14-1"><span class="c1"># Start with reader permissions</span>
-</span><span id="__span-14-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Audit Viewer&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Read-only audit permissions&quot;</span>
+</span><span id="__span-14-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Audit Viewer&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Read-only audit permissions&quot;</span>
 </span><span id="__span-14-3">
 </span><span id="__span-14-4"><span class="c1"># Load and merge reader role</span>
-</span><span id="__span-14-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*read*&quot;</span>
+</span><span id="__span-14-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*read*&quot;</span>
 </span><span id="__span-14-6">
 </span><span id="__span-14-7"><span class="c1"># Remove sensitive data access</span>
-</span><span id="__span-14-8">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;keys/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
-</span><span id="__span-14-9">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;secrets/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</span><span id="__span-14-8">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;keys/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</span><span id="__span-14-9">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;secrets/read&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
 </span><span id="__span-14-10">
 </span><span id="__span-14-11"><span class="c1"># Save</span>
-</span><span id="__span-14-12">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;audit-viewer&quot;</span>
+</span><span id="__span-14-12">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;audit-viewer&quot;</span>
 </span></code></pre></div>
 <h2 id="workflow-scenarios">Workflow Scenarios<a class="headerlink" href="#workflow-scenarios" title="Permanent link">&para;</a></h2>
 <h3 id="scenario-1-request-design-test-publish">Scenario 1: Request → Design → Test → Publish<a class="headerlink" href="#scenario-1-request-design-test-publish" title="Permanent link">&para;</a></h3>
 <p><strong>Step 1: Create Role Design</strong></p>
 <div class="highlight"><pre><span></span><code><span id="__span-15-1"><span class="c1"># Create new role based on requirements</span>
-</span><span id="__span-15-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Prod&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Production data processing&quot;</span>
+</span><span id="__span-15-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Prod&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Production data processing&quot;</span>
 </span><span id="__span-15-3">
 </span><span id="__span-15-4"><span class="c1"># Build from senior developer permissions</span>
-</span><span id="__span-15-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
+</span><span id="__span-15-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
 </span><span id="__span-15-6">
 </span><span id="__span-15-7"><span class="c1"># Keep only data-related permissions</span>
-</span><span id="__span-15-8">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*Compute*&quot;</span>
-</span><span id="__span-15-9">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*Network*&quot;</span>
+</span><span id="__span-15-8">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*Compute*&quot;</span>
+</span><span id="__span-15-9">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*Network*&quot;</span>
 </span></code></pre></div>
 <p><strong>Step 2: Review</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-16-1">custom-role-designer<span class="w"> </span>view<span class="w"> </span>--all
+<div class="highlight"><pre><span></span><code><span id="__span-16-1">azure-custom-role-tool<span class="w"> </span>view<span class="w"> </span>--all
 </span></code></pre></div>
 <p><strong>Step 3: Save Locally for Review</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-17-1">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-17-1">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
 </span><span id="__span-17-2"><span class="c1"># Commit to Git for review: roles/dataengineer-prod.json</span>
 </span></code></pre></div>
 <p><strong>Step 4: Publish After Approval</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-18-1">custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-18-1">azure-custom-role-tool<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
 </span></code></pre></div>
 <h3 id="scenario-2-update-existing-role">Scenario 2: Update Existing Role<a class="headerlink" href="#scenario-2-update-existing-role" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-19-1"><span class="c1"># Load existing role</span>
-</span><span id="__span-19-2">custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
+</span><span id="__span-19-2">azure-custom-role-tool<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
 </span><span id="__span-19-3">
 </span><span id="__span-19-4"><span class="c1"># View current permissions</span>
-</span><span id="__span-19-5">custom-role-designer<span class="w"> </span>view<span class="w"> </span>--all
+</span><span id="__span-19-5">azure-custom-role-tool<span class="w"> </span>view<span class="w"> </span>--all
 </span><span id="__span-19-6">
 </span><span id="__span-19-7"><span class="c1"># Add new required permissions</span>
-</span><span id="__span-19-8">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;PostgreSQL*&quot;</span>
+</span><span id="__span-19-8">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;PostgreSQL*&quot;</span>
 </span><span id="__span-19-9">
 </span><span id="__span-19-10"><span class="c1"># Remove deprecated permissions</span>
-</span><span id="__span-19-11">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Legacy*&quot;</span>
+</span><span id="__span-19-11">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Legacy*&quot;</span>
 </span><span id="__span-19-12">
 </span><span id="__span-19-13"><span class="c1"># Save and publish</span>
-</span><span id="__span-19-14">custom-role-designer<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span><span class="w"> </span>--overwrite
-</span><span id="__span-19-15">custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
+</span><span id="__span-19-14">azure-custom-role-tool<span class="w"> </span>save<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span><span class="w"> </span>--overwrite
+</span><span id="__span-19-15">azure-custom-role-tool<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;dataengineer-prod&quot;</span>
 </span></code></pre></div>
 <h3 id="scenario-3-compare-multiple-roles">Scenario 3: Compare Multiple Roles<a class="headerlink" href="#scenario-3-compare-multiple-roles" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-20-1"><span class="c1"># List available roles</span>
-</span><span id="__span-20-2">custom-role-designer<span class="w"> </span>list
+</span><span id="__span-20-2">azure-custom-role-tool<span class="w"> </span>list
 </span><span id="__span-20-3">
 </span><span id="__span-20-4"><span class="c1"># View each role</span>
-</span><span id="__span-20-5">custom-role-designer<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
-</span><span id="__span-20-6">custom-role-designer<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;junior-developer&quot;</span>
+</span><span id="__span-20-5">azure-custom-role-tool<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
+</span><span id="__span-20-6">azure-custom-role-tool<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;junior-developer&quot;</span>
 </span><span id="__span-20-7">
 </span><span id="__span-20-8"><span class="c1"># Use to understand permission differences before merging</span>
 </span></code></pre></div>
@@ -2032,26 +2032,26 @@
 <h3 id="string-filters">String Filters<a class="headerlink" href="#string-filters" title="Permanent link">&para;</a></h3>
 <p>String filters use wildcard patterns (case-insensitive):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-21-1"><span class="c1"># Exact match</span>
-</span><span id="__span-21-2">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage/storageAccounts/read&quot;</span>
+</span><span id="__span-21-2">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage/storageAccounts/read&quot;</span>
 </span><span id="__span-21-3">
 </span><span id="__span-21-4"><span class="c1"># Wildcard match</span>
-</span><span id="__span-21-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span>
+</span><span id="__span-21-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Storage*&quot;</span>
 </span><span id="__span-21-6">
 </span><span id="__span-21-7"><span class="c1"># Partial match</span>
-</span><span id="__span-21-8">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*blobs*&quot;</span>
+</span><span id="__span-21-8">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*blobs*&quot;</span>
 </span><span id="__span-21-9">
 </span><span id="__span-21-10"><span class="c1"># Complex patterns</span>
-</span><span id="__span-21-11">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.*/*/read&quot;</span>
+</span><span id="__span-21-11">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.*/*/read&quot;</span>
 </span></code></pre></div>
 <h3 id="type-filters">Type Filters<a class="headerlink" href="#type-filters" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-22-1"><span class="c1"># Control plane only (management operations)</span>
-</span><span id="__span-22-2">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
+</span><span id="__span-22-2">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>control
 </span><span id="__span-22-3">
 </span><span id="__span-22-4"><span class="c1"># Data plane only (data operations)</span>
-</span><span id="__span-22-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</span><span id="__span-22-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
 </span><span id="__span-22-6">
 </span><span id="__span-22-7"><span class="c1"># Combine filters</span>
-</span><span id="__span-22-8">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Storage*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
+</span><span id="__span-22-8">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Storage*&quot;</span><span class="w"> </span>--filter-type<span class="w"> </span>data
 </span></code></pre></div>
 <h2 id="permission-categories">Permission Categories<a class="headerlink" href="#permission-categories" title="Permanent link">&para;</a></h2>
 <h3 id="control-plane-permissions">Control Plane Permissions<a class="headerlink" href="#control-plane-permissions" title="Permanent link">&para;</a></h3>
@@ -2068,34 +2068,34 @@
 <h3 id="1-principle-of-least-privilege">1. Principle of Least Privilege<a class="headerlink" href="#1-principle-of-least-privilege" title="Permanent link">&para;</a></h3>
 <p>Always start restrictive and add permissions as needed:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-23-1"><span class="c1"># Good: Create empty, add specific permissions</span>
-</span><span id="__span-23-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;App Developer&quot;</span>
-</span><span id="__span-23-3">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;basic-reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Web*&quot;</span>
+</span><span id="__span-23-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;App Developer&quot;</span>
+</span><span id="__span-23-3">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;basic-reader&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;Microsoft.Web*&quot;</span>
 </span><span id="__span-23-4">
 </span><span id="__span-23-5"><span class="c1"># Avoid: Creating with wildcard permissions</span>
-</span><span id="__span-23-6">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;contributor&quot;</span>
+</span><span id="__span-23-6">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;contributor&quot;</span>
 </span></code></pre></div>
 <h3 id="2-document-your-roles">2. Document Your Roles<a class="headerlink" href="#2-document-your-roles" title="Permanent link">&para;</a></h3>
 <p>Always include clear descriptions:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-24-1">custom-role-designer<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span id="__span-24-1">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-24-2"><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer&quot;</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-24-3"><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Create/update data pipelines and manage Azure Data Factory, SQL Database, and Storage accounts. Cannot delete resources or modify access controls.&quot;</span>
 </span></code></pre></div>
 <h3 id="3-use-filters-for-safety">3. Use Filters for Safety<a class="headerlink" href="#3-use-filters-for-safety" title="Permanent link">&para;</a></h3>
 <p>Always remove dangerous operations:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-25-1">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
-</span><span id="__span-25-2">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
-</span><span id="__span-25-3">custom-role-designer<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*deallocate*&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-25-1">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;senior-developer&quot;</span>
+</span><span id="__span-25-2">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*delete*&quot;</span>
+</span><span id="__span-25-3">azure-custom-role-tool<span class="w"> </span>remove<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;*deallocate*&quot;</span>
 </span></code></pre></div>
 <h3 id="4-version-your-roles">4. Version Your Roles<a class="headerlink" href="#4-version-your-roles" title="Permanent link">&para;</a></h3>
 <p>Include environment/version in role names:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-26-1">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Dev-v1&quot;</span>
-</span><span id="__span-26-2">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Prod-v2&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-26-1">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Dev-v1&quot;</span>
+</span><span id="__span-26-2">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DataEngineer-Prod-v2&quot;</span>
 </span></code></pre></div>
 <h3 id="5-review-changes">5. Review Changes<a class="headerlink" href="#5-review-changes" title="Permanent link">&para;</a></h3>
 <p>Always view the final role before publishing:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-27-1">custom-role-designer<span class="w"> </span>view<span class="w"> </span>--all
+<div class="highlight"><pre><span></span><code><span id="__span-27-1">azure-custom-role-tool<span class="w"> </span>view<span class="w"> </span>--all
 </span><span id="__span-27-2"><span class="c1"># Review output, then:</span>
-</span><span id="__span-27-3">custom-role-designer<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
+</span><span id="__span-27-3">azure-custom-role-tool<span class="w"> </span>publish<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;my-role&quot;</span>
 </span></code></pre></div>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="issue-azure_subscription_id-not-set">Issue: "AZURE_SUBSCRIPTION_ID not set"<a class="headerlink" href="#issue-azure_subscription_id-not-set" title="Permanent link">&para;</a></h3>
@@ -2111,30 +2111,30 @@
 </span></code></pre></div>
 <h3 id="issue-role-not-found">Issue: "Role not found"<a class="headerlink" href="#issue-role-not-found" title="Permanent link">&para;</a></h3>
 <p><strong>Solution:</strong> Verify role exists and correct directory:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-30-1">custom-role-designer<span class="w"> </span>list
-</span><span id="__span-30-2">custom-role-designer<span class="w"> </span>list<span class="w"> </span>--role-dir<span class="w"> </span>/path/to/roles
+<div class="highlight"><pre><span></span><code><span id="__span-30-1">azure-custom-role-tool<span class="w"> </span>list
+</span><span id="__span-30-2">azure-custom-role-tool<span class="w"> </span>list<span class="w"> </span>--role-dir<span class="w"> </span>/path/to/roles
 </span></code></pre></div>
 <h3 id="issue-no-current-role">Issue: "No current role"<a class="headerlink" href="#issue-no-current-role" title="Permanent link">&para;</a></h3>
 <p><strong>Solution:</strong> Create or load a role first:</p>
-<div class="highlight"><pre><span></span><code><span id="__span-31-1">custom-role-designer<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;MyRole&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Test&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-31-1">azure-custom-role-tool<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;MyRole&quot;</span><span class="w"> </span>--description<span class="w"> </span><span class="s2">&quot;Test&quot;</span>
 </span><span id="__span-31-2"><span class="c1"># or</span>
-</span><span id="__span-31-3">custom-role-designer<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;existing-role&quot;</span>
+</span><span id="__span-31-3">azure-custom-role-tool<span class="w"> </span>load<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;existing-role&quot;</span>
 </span></code></pre></div>
 <h3 id="issue-permissions-not-merged-as-expected">Issue: "Permissions not merged as expected"<a class="headerlink" href="#issue-permissions-not-merged-as-expected" title="Permanent link">&para;</a></h3>
 <p><strong>Solution:</strong> Check your filters:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-32-1"><span class="c1"># List role to see permission names</span>
-</span><span id="__span-32-2">custom-role-designer<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;source-role&quot;</span>
+</span><span id="__span-32-2">azure-custom-role-tool<span class="w"> </span>list<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;source-role&quot;</span>
 </span><span id="__span-32-3">
 </span><span id="__span-32-4"><span class="c1"># Test filter pattern</span>
-</span><span id="__span-32-5">custom-role-designer<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;source-role&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;exact-permission-name&quot;</span>
+</span><span id="__span-32-5">azure-custom-role-tool<span class="w"> </span>merge<span class="w"> </span>--roles<span class="w"> </span><span class="s2">&quot;source-role&quot;</span><span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;exact-permission-name&quot;</span>
 </span></code></pre></div>
 <h2 id="integration-with-cicd">Integration with CI/CD<a class="headerlink" href="#integration-with-cicd" title="Permanent link">&para;</a></h2>
 <h3 id="example-github-actions">Example: GitHub Actions<a class="headerlink" href="#example-github-actions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-33-1"><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Azure Role</span>
 </span><span id="__span-33-2"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-</span><span id="__span-33-3"><span class="w">    </span><span class="no">custom-role-designer create --name &quot;CI-Role&quot;</span>
-</span><span id="__span-33-4"><span class="w">    </span><span class="no">custom-role-designer merge --roles &quot;devops-developer&quot;</span>
-</span><span id="__span-33-5"><span class="w">    </span><span class="no">custom-role-designer publish --name &quot;CI-Role&quot;</span>
+</span><span id="__span-33-3"><span class="w">    </span><span class="no">azure-custom-role-tool create --name &quot;CI-Role&quot;</span>
+</span><span id="__span-33-4"><span class="w">    </span><span class="no">azure-custom-role-tool merge --roles &quot;devops-developer&quot;</span>
+</span><span id="__span-33-5"><span class="w">    </span><span class="no">azure-custom-role-tool publish --name &quot;CI-Role&quot;</span>
 </span><span id="__span-33-6"><span class="w">  </span><span class="nt">env</span><span class="p">:</span>
 </span><span id="__span-33-7"><span class="w">    </span><span class="nt">AZURE_SUBSCRIPTION_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_SUBSCRIPTION_ID }}</span>
 </span><span id="__span-33-8"><span class="w">    </span><span class="nt">AZURE_TENANT_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_TENANT_ID }}</span>
