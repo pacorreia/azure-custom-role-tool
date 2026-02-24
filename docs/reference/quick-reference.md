@@ -154,7 +154,7 @@ publish --subscription-id prod-sub
 EOF
 
 # Execute (future enhancement - not yet implemented)
-# custom-role-designer console < create_role.cli
+# azure-custom-role-tool console < create_role.cli
 ```
 
 ## Troubleshooting

@@ -10,7 +10,7 @@ The console mode includes a **`paste`** command that enables you to paste multip
 
 1. **Enter the console**:
    ```
-   custom-role-designer console
+   azure-custom-role-tool console
    ```
 
 2. **Start paste mode**:

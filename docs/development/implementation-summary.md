@@ -76,37 +76,37 @@ A complete, production-ready CLI tool for platform engineers to create, update, 
 
 ### ✅ Start a role from scratch
 ```bash
-custom-role-designer create --name "MyRole" --description "Description"
+azure-custom-role-tool create --name "MyRole" --description "Description"
 ```
 
 ### ✅ Cherry pick from other roles
 ```bash
-custom-role-designer merge --roles "source-role" --filter "Microsoft.Storage*"
+azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Storage*"
 ```
 
 ### ✅ Merge one or more permissions from existing roles
 ```bash
-custom-role-designer merge --roles "role1,role2,role3"
+azure-custom-role-tool merge --roles "role1,role2,role3"
 ```
 
 ### ✅ Filter by string in permission
 ```bash
-custom-role-designer merge --roles "source" --filter "*blobs*"
+azure-custom-role-tool merge --roles "source" --filter "*blobs*"
 ```
 
 ### ✅ Filter by control/data permissions
 ```bash
-custom-role-designer merge --roles "source" --filter-type data
+azure-custom-role-tool merge --roles "source" --filter-type data
 ```
 
 ### ✅ Remove permissions based on existing role
 ```bash
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 ### ✅ Remove permissions with same filters
 ```bash
-custom-role-designer remove --filter "*delete*" --filter-type control
+azure-custom-role-tool remove --filter "*delete*" --filter-type control
 ```
 
 ## 📁 Complete File Structure
@@ -153,17 +153,17 @@ az login
 ### 2. Create a Custom Role
 
 ```bash
-custom-role-designer create --name "MyRole" --description "My custom role"
-custom-role-designer merge --roles "senior-developer" --filter "Storage*"
-custom-role-designer remove --filter "*delete*"
-custom-role-designer save --name "my-role"
-custom-role-designer publish --name "my-role"
+azure-custom-role-tool create --name "MyRole" --description "My custom role"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Storage*"
+azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool save --name "my-role"
+azure-custom-role-tool publish --name "my-role"
 ```
 
 ### 3. Interactive Mode
 
 ```bash
-custom-role-designer
+azure-custom-role-tool
 ```
 
 ## 🎨 Key Features
@@ -215,33 +215,33 @@ custom-role-designer
 
 ### Example 1: Create Developer Role
 ```bash
-custom-role-designer create --name "AppDeveloper" --description "App development"
-custom-role-designer merge --roles "junior-developer,reader"
-custom-role-designer merge --roles "senior-developer" --filter "Microsoft.Web*"
-custom-role-designer remove --filter "*delete*"
-custom-role-designer save --name "app-developer"
+azure-custom-role-tool create --name "AppDeveloper" --description "App development"
+azure-custom-role-tool merge --roles "junior-developer,reader"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Web*"
+azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool save --name "app-developer"
 ```
 
 ### Example 2: Environment-Specific Roles
 ```bash
 # Dev - permissive
-custom-role-designer create --name "DataEng-Dev"
-custom-role-designer merge --roles "senior-developer"
+azure-custom-role-tool create --name "DataEng-Dev"
+azure-custom-role-tool merge --roles "senior-developer"
 
 # Prod - restrictive  
-custom-role-designer create --name "DataEng-Prod"
-custom-role-designer merge --roles "data-reader"
-custom-role-designer merge --roles "pipeline-operator"
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool create --name "DataEng-Prod"
+azure-custom-role-tool merge --roles "data-reader"
+azure-custom-role-tool merge --roles "pipeline-operator"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 ### Example 3: Team Permissions
 ```bash
-custom-role-designer create --name "CloudOpsTeam"
-custom-role-designer merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
-custom-role-designer remove --filter "*delete*"
-custom-role-designer remove --filter "*deallocate*"
-custom-role-designer publish
+azure-custom-role-tool create --name "CloudOpsTeam"
+azure-custom-role-tool merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
+azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*deallocate*"
+azure-custom-role-tool publish
 ```
 
 ## 🔐 Security Features

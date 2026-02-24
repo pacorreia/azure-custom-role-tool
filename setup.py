@@ -41,7 +41,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "custom-role-designer=azure_custom_role_tool.cli:main",
+            "azure-custom-role-tool=azure_custom_role_tool.cli:main",
         ],
     },
     include_package_data=True,

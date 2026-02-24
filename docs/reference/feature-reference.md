@@ -11,7 +11,7 @@ This document provides a comprehensive reference for all capabilities of the Azu
 Create a brand new custom role with no initial permissions:
 
 ```bash
-custom-role-designer create --name "MyRole" --description "My custom role"
+azure-custom-role-tool create --name "MyRole" --description "My custom role"
 ```
 
 **Features:**
@@ -26,10 +26,10 @@ Selectively choose specific permissions from existing roles:
 
 ```bash
 # Merge single permission exactly
-custom-role-designer merge --roles "source-role" --filter "Microsoft.Storage/storageAccounts/read"
+azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Storage/storageAccounts/read"
 
 # Merge specific action patterns
-custom-role-designer merge --roles "source-role" --filter "Microsoft.Web*"
+azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Web*"
 ```
 
 **Features:**
@@ -44,13 +44,13 @@ Combine permissions from multiple source roles simultaneously:
 
 ```bash
 # Simple merge
-custom-role-designer merge --roles "role1,role2,role3"
+azure-custom-role-tool merge --roles "role1,role2,role3"
 
 # With filtering
-custom-role-designer merge --roles "junior-dev,reader,viewer" --filter "*read*"
+azure-custom-role-tool merge --roles "junior-dev,reader,viewer" --filter "*read*"
 
 # Multiple filters
-custom-role-designer merge --roles "senior-dev" --filter "Storage*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*" --filter-type data
 ```
 
 **Features:**
@@ -65,13 +65,13 @@ Search and filter permissions by text patterns:
 
 ```bash
 # Simple wildcard
-custom-role-designer merge --roles "senior-dev" --filter "Storage*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*"
 
 # Partial match
-custom-role-designer merge --roles "senior-dev" --filter "*blobs*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "*blobs*"
 
 # Complex pattern
-custom-role-designer merge --roles "senior-dev" --filter "Microsoft.Storage/storageAccounts/blobServices/*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "Microsoft.Storage/storageAccounts/blobServices/*"
 ```
 
 **Filter Syntax:**
@@ -92,13 +92,13 @@ Separate and manage control vs. data plane permissions:
 
 ```bash
 # Control plane only (management operations)
-custom-role-designer merge --roles "senior-dev" --filter-type control
+azure-custom-role-tool merge --roles "senior-dev" --filter-type control
 
 # Data plane only (data operations)
-custom-role-designer merge --roles "senior-dev" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter-type data
 
 # Combined with string filter
-custom-role-designer merge --roles "senior-dev" --filter "Storage*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*" --filter-type data
 ```
 
 **Permission Types:**
@@ -121,17 +121,17 @@ Filter and remove specific permissions from the current role:
 
 ```bash
 # Remove by pattern
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*delete*"
 
 # Remove by type
-custom-role-designer remove --filter-type data
+azure-custom-role-tool remove --filter-type data
 
 # Combined filtering
-custom-role-designer remove --filter "Microsoft.Storage*" --filter-type control
+azure-custom-role-tool remove --filter "Microsoft.Storage*" --filter-type control
 
 # Remove dangerous operations
-custom-role-designer remove --filter "*deallocate*"
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*deallocate*"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 **Features:**
@@ -145,19 +145,19 @@ Persist role definitions locally for version control:
 
 ```bash
 # Load from default directory
-custom-role-designer load --name "my-role"
+azure-custom-role-tool load --name "my-role"
 
 # Load from custom directory
-custom-role-designer load --name "my-role" --role-dir ./archive
+azure-custom-role-tool load --name "my-role" --role-dir ./archive
 
 # Save to default directory
-custom-role-designer save --name "my-role"
+azure-custom-role-tool save --name "my-role"
 
 # Save to custom location
-custom-role-designer save --name "my-role" --output ./roles/my-role.json
+azure-custom-role-tool save --name "my-role" --output ./roles/my-role.json
 
 # Overwrite existing
-custom-role-designer save --name "my-role" --overwrite
+azure-custom-role-tool save --name "my-role" --overwrite
 ```
 
 **Features:**
@@ -172,10 +172,10 @@ Deploy created/modified roles directly to Azure:
 
 ```bash
 # Publish simple
-custom-role-designer publish --name "my-role"
+azure-custom-role-tool publish --name "my-role"
 
 # Publish with specific subscription
-custom-role-designer publish --name "my-role" --subscription-id "xxxxx-xxxxx"
+azure-custom-role-tool publish --name "my-role" --subscription-id "xxxxx-xxxxx"
 ```
 
 **Features:**
@@ -190,19 +190,19 @@ Browse and inspect local and Azure roles:
 
 ```bash
 # List all local roles
-custom-role-designer list
+azure-custom-role-tool list
 
 # View specific role details
-custom-role-designer list --name "my-role"
+azure-custom-role-tool list --name "my-role"
 
 # List Azure roles
-custom-role-designer list-azure
+azure-custom-role-tool list-azure
 
 # View current role in detail
-custom-role-designer view
+azure-custom-role-tool view
 
 # Show all permissions (no truncation)
-custom-role-designer view --all
+azure-custom-role-tool view --all
 ```
 
 **Features:**
@@ -216,7 +216,7 @@ custom-role-designer view --all
 Full-featured interactive CLI menu:
 
 ```bash
-custom-role-designer
+azure-custom-role-tool
 ```
 
 **Features:**
@@ -231,59 +231,59 @@ custom-role-designer
 
 ```bash
 # Start with empty role
-custom-role-designer create --name "BuildingRole" --description "Incrementally built"
+azure-custom-role-tool create --name "BuildingRole" --description "Incrementally built"
 
 # Add read-only permissions
-custom-role-designer merge --roles "reader"
+azure-custom-role-tool merge --roles "reader"
 
 # Add specific data access
-custom-role-designer merge --roles "senior-dev" --filter "*Blob*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "*Blob*" --filter-type data
 
 # Add storage management (but not delete)
-custom-role-designer merge --roles "storage-admin" --filter "Microsoft.Storage*"
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool merge --roles "storage-admin" --filter "Microsoft.Storage*"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 ### Pattern 2: Role Specialization from Broad Base
 
 ```bash
 # Start with contributor-like permissions
-custom-role-designer create --name "WebDeveloper" --description "Web developer permissions"
-custom-role-designer merge --roles "contributor"
+azure-custom-role-tool create --name "WebDeveloper" --description "Web developer permissions"
+azure-custom-role-tool merge --roles "contributor"
 
 # Remove unnecessary resources
-custom-role-designer remove --filter "Microsoft.Compute*"
-custom-role-designer remove --filter "Microsoft.Network*"
-custom-role-designer remove --filter "Microsoft.Sql*"
+azure-custom-role-tool remove --filter "Microsoft.Compute*"
+azure-custom-role-tool remove --filter "Microsoft.Network*"
+azure-custom-role-tool remove --filter "Microsoft.Sql*"
 
 # Remove dangerous operations
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 ### Pattern 3: Role Combination for Teams
 
 ```bash
 # Combine multiple specialized roles
-custom-role-designer create --name "CloudOpsTeam" --description "Combined CloudOps permissions"
+azure-custom-role-tool create --name "CloudOpsTeam" --description "Combined CloudOps permissions"
 
 # Combine DevOps, Infrastructure, and Monitoring
-custom-role-designer merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
+azure-custom-role-tool merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
 
 # Remove conflicts/sensitive ops
-custom-role-designer remove --filter "*delete*"
+azure-custom-role-tool remove --filter "*delete*"
 ```
 
 ### Pattern 4: Environment-Specific Roles
 
 ```bash
 # Development role - permissive
-custom-role-designer create --name "DataEng-Dev" --description "Dev environment"
-custom-role-designer merge --roles "senior-developer"
+azure-custom-role-tool create --name "DataEng-Dev" --description "Dev environment"
+azure-custom-role-tool merge --roles "senior-developer"
 
 # Production role - restrictive
-custom-role-designer create --name "DataEng-Prod" --description "Prod environment"
-custom-role-designer merge --roles "data-reader"
-custom-role-designer merge --roles "pipeline-operator" --filter "Pipeline*"
+azure-custom-role-tool create --name "DataEng-Prod" --description "Prod environment"
+azure-custom-role-tool merge --roles "data-reader"
+azure-custom-role-tool merge --roles "pipeline-operator" --filter "Pipeline*"
 ```
 
 ## Command Reference
@@ -418,9 +418,9 @@ azure-custom-role-tool/
 ```yaml
 - name: Deploy Custom Role
   run: |
-    custom-role-designer load --name "prod-role"
-    custom-role-designer view --all
-    custom-role-designer publish --name "prod-role"
+    azure-custom-role-tool load --name "prod-role"
+    azure-custom-role-tool view --all
+    azure-custom-role-tool publish --name "prod-role"
   env:
     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUB }}
 ```
@@ -430,8 +430,8 @@ azure-custom-role-tool/
 ```bash
 #!/bin/bash
 for role in $(ls roles/*.json); do
-  custom-role-designer load --role-dir roles --name $(basename $role .json)
-  custom-role-designer publish
+  azure-custom-role-tool load --role-dir roles --name $(basename $role .json)
+  azure-custom-role-tool publish
 done
 ```
 
