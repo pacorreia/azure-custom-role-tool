@@ -25,6 +25,21 @@ permissions:
   pull-requests: write
 
 jobs:
+  auto-version:
+    name: Auto Versioning
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run auto-versioning
+        uses: github-actions/auto-versioning@v1
+        with:
+          version_file: pyproject.toml
+          commit_message: 'chore: bump version [skip ci]'
+          tag_prefix: 'v'
+          push: true
+
   test:
     name: Test Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
