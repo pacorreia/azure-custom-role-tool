@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "A powerful CLI tool for creating and managing Azure custom roles"
 readme = "README.md"
 requires-python = ">=3.8"
-license = "Proprietary"
+license = "MIT"
 authors = [
     {name = "OI Technologies Platform Engineering", email = "platform-engineering@example.com"}
 ]
