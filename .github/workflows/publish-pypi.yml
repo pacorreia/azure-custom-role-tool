@@ -80,9 +80,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && inputs.test_pypi
     needs: [build]
     runs-on: ubuntu-latest
-    environment:
-      name: test-pypi
-      url: https://test.pypi.org/p/azure-custom-role-tool
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v7
