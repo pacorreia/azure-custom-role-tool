@@ -8,8 +8,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="azure-custom-role-tool",
     version="1.0.0",
-    author="OI Technologies Platform Engineering",
-    author_email="platform-engineering@example.com",
+    author="Paulo Correia",
+    author_email="54323159+pacorreia@users.noreply.github.com",
     description="A powerful CLI tool for creating and managing Azure custom roles",
     long_description=long_description,
     long_description_content_type="text/markdown",
