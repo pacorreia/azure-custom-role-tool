@@ -29,9 +29,13 @@ jobs:
     name: Auto Versioning
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    outputs:
+      tag_created: ${{ steps.push_tag.outputs.tag_created }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Auto versioning
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         id: version
@@ -49,6 +53,7 @@ jobs:
           enable_prerelease_mode: false
 
       - name: Create and push tag
+        id: push_tag
         if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.version.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,6 +75,7 @@ jobs:
           git push "https://github-actions[bot]:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" "${VERSION}" --force
           
           echo "✅ Created and pushed tag: ${VERSION}"
+          echo "tag_created=true" >> $GITHUB_OUTPUT
 
   test:
     name: Test Python ${{ matrix.python-version }}
@@ -217,7 +223,7 @@ jobs:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     needs: auto-version
-    if: github.ref_type == 'tag'
+    if: needs.auto-version.outputs.tag_created == 'true'
     steps:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
