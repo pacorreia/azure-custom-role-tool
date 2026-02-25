@@ -5,7 +5,7 @@ A powerful CLI tool for platform engineers to create, update, and manage Azure c
 """
 
 __version__ = "1.0.0"  # Trigger version bump: trivial comment
-__author__ = "OI Technologies Platform Engineering"
+__author__ = "Paulo Correia"
 __license__ = "Internal"
 
 from .role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition

@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-    {name = "OI Technologies Platform Engineering", email = "platform-engineering@example.com"}
+    {name = "Paulo Correia", email = "54323159+pacorreia@users.noreply.github.com"}
 ]
 keywords = ["azure", "custom-roles", "permissions", "iam", "cli"]
 classifiers = [

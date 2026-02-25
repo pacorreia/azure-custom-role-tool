@@ -198,8 +198,8 @@ See the `examples/` directory for pre-built roles like:
 
 ## Contributing
 
-For issues or feature requests, contact the platform engineering team.
+For issues or feature requests, open a GitHub issue.
 
 ## License
 
-Internal - OI Technologies
+MIT - Paulo Correia
