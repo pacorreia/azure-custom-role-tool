@@ -6,6 +6,7 @@ import pytest
 
 from azure_custom_role_tool import cli
 from azure_custom_role_tool.role_manager import (
+    RoleManager,
     AzureRoleDefinition,
     PermissionDefinition,
 )
@@ -58,6 +59,13 @@ class DummyAzureClientWithAllRoles:
         ]
 
 
+@pytest.fixture(autouse=True)
+def isolated_role_manager(monkeypatch, tmp_path: Path):
+    """Use an isolated roles directory for every test in this module."""
+    manager = RoleManager(roles_dir=tmp_path / "roles")
+    monkeypatch.setattr(cli, "role_manager", manager)
+
+
 def test_view_azure_command_not_found(monkeypatch, tmp_path: Path):
     """Test view-azure command with non-existent role."""
     runner = CliRunner()
@@ -102,6 +110,18 @@ def test_view_azure_case_insensitive(monkeypatch):
     assert "Contributor" in result.output
 
 
+def test_view_azure_positional_name(monkeypatch):
+    """Test view-azure accepts role name as positional argument."""
+    runner = CliRunner()
+
+    monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
+    monkeypatch.setattr(cli, "current_subscription", "sub-123")
+
+    result = runner.invoke(cli.cli, ["view-azure", "Contributor"])
+    assert result.exit_code == 0
+    assert "Contributor" in result.output
+
+
 def test_view_azure_with_filter(monkeypatch):
     """Test view-azure command with permission filter."""
     runner = CliRunner()
@@ -118,7 +138,7 @@ def test_view_azure_with_filter(monkeypatch):
             "--name",
             "Custom-Storage-Role",
             "--filter",
-            "Microsoft.Storage/*",
+            "Microsoft.Storage/%",
         ],
     )
     assert result.exit_code == 0
@@ -135,9 +155,22 @@ def test_search_azure_command_with_matches(monkeypatch):
         cli, "current_subscription", "sub-123"
     )  # Set subscription context
 
-    result = runner.invoke(cli.cli, ["search-azure", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(cli.cli, ["search-azure", "--filter", "Microsoft.Storage/%"])
     assert result.exit_code == 0
     assert "Custom-Storage-Role" in result.output
+
+
+def test_search_azure_positional_filter(monkeypatch):
+    """Test search-azure accepts filter as positional argument."""
+    runner = CliRunner()
+
+    monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
+    monkeypatch.setattr(cli, "current_subscription", "sub-123")
+
+    result = runner.invoke(cli.cli, ["search-azure", "Microsoft.Storage/%"])
+    assert result.exit_code == 0
+    assert "Permissions matching" in result.output
+    assert "Microsoft.Storage/storageAccounts/read" in result.output
 
 
 def test_search_azure_command_no_matches(monkeypatch):
@@ -150,10 +183,10 @@ def test_search_azure_command_no_matches(monkeypatch):
     )  # Set subscription context
 
     result = runner.invoke(
-        cli.cli, ["search-azure", "--filter", "Microsoft.Compute/nonexistent*"]
+        cli.cli, ["search-azure", "--filter", "Microsoft.Compute/nonexistent%"]
     )
     assert result.exit_code == 0
-    assert "No roles found" in result.output
+    assert "No permissions found" in result.output
 
 
 def test_search_azure_with_data_actions(monkeypatch):
@@ -170,11 +203,75 @@ def test_search_azure_with_data_actions(monkeypatch):
         [
             "search-azure",
             "--filter",
-            "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/*",
+            "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/%",
         ],
     )
     assert result.exit_code == 0
     assert "Custom-Storage-Role" in result.output
+    assert (
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+        in result.output
+    )
+
+
+def test_import_azure_permissions_with_matches(monkeypatch):
+    """Test import-azure-permissions imports matching permissions into current role."""
+    runner = CliRunner()
+
+    monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
+    monkeypatch.setattr(cli, "current_subscription", "sub-123")
+    cli.role_manager.create_role("TargetRole", "Target")
+
+    result = runner.invoke(
+        cli.cli,
+        ["import-azure-permissions", "--filter", "Microsoft.Storage/%/read"],
+    )
+    assert result.exit_code == 0
+    assert "Imported Azure permissions into" in result.output
+    assert (
+        "Microsoft.Storage/storageAccounts/read"
+        in cli.role_manager.current_role.Permissions[0].Actions
+    )
+    assert (
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+        in cli.role_manager.current_role.Permissions[0].DataActions
+    )
+
+
+def test_import_azure_permissions_positional_filter(monkeypatch):
+    """Test import-azure-permissions accepts filter as positional argument."""
+    runner = CliRunner()
+
+    monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
+    monkeypatch.setattr(cli, "current_subscription", "sub-123")
+    cli.role_manager.create_role("TargetRole", "Target")
+
+    result = runner.invoke(
+        cli.cli,
+        ["import-azure-permissions", "Microsoft.Storage/%/read"],
+    )
+    assert result.exit_code == 0
+    assert "Imported Azure permissions into" in result.output
+    assert (
+        "Microsoft.Storage/storageAccounts/read"
+        in cli.role_manager.current_role.Permissions[0].Actions
+    )
+
+
+def test_import_azure_permissions_no_matches(monkeypatch):
+    """Test import-azure-permissions handles no matches gracefully."""
+    runner = CliRunner()
+
+    monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
+    monkeypatch.setattr(cli, "current_subscription", "sub-123")
+    cli.role_manager.create_role("TargetRole", "Target")
+
+    result = runner.invoke(
+        cli.cli,
+        ["import-azure-permissions", "--filter", "Microsoft.KeyVault/%/delete"],
+    )
+    assert result.exit_code == 0
+    assert "No permissions found matching" in result.output
 
 
 def test_load_azure_command(monkeypatch):

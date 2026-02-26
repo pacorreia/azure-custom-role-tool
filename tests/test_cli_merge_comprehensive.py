@@ -16,6 +16,7 @@ def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     """Configure a test role manager."""
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 
@@ -209,7 +210,7 @@ def test_merge_with_filter_preserves_existing_unfiltered(monkeypatch, tmp_path: 
 
     # Merge with Storage filter only
     result = runner.invoke(
-        cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/*"]
+        cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/%"]
     )
 
     assert result.exit_code == 0

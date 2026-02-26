@@ -148,10 +148,13 @@ azure-custom-role-tool view --all
 #### Save Role
 
 ```bash
-# Save to default roles directory
+# First save (save-as)
 azure-custom-role-tool save --name "my-role"
 
-# Save to custom location
+# Quick-save (reuses previous filename/path)
+azure-custom-role-tool save
+
+# Save-as to custom location
 azure-custom-role-tool save --name "my-role" --output /path/to/my-role.json
 
 # Overwrite existing file
@@ -167,10 +170,10 @@ azure-custom-role-tool save --name "my-role" --overwrite
 azure-custom-role-tool create --name "App Developer" --description "Permissions for app development"
 
 # Merge read permissions from multiple roles
-azure-custom-role-tool merge --roles "junior-developer,reader" --filter "*read*"
+azure-custom-role-tool merge --roles "junior-developer,reader" --filter "%read%"
 
 # Remove delete operations
-azure-custom-role-tool remove --filter "*delete*" --filter-type control
+azure-custom-role-tool remove --filter "%delete%" --filter-type control
 
 # Save locally
 azure-custom-role-tool save --name "app-developer"
@@ -186,7 +189,7 @@ azure-custom-role-tool publish --name "app-developer"
 azure-custom-role-tool create --name "Storage Manager" --description "Manage Azure Storage"
 
 # Merge only storage permissions from senior developer role
-azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Storage*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Storage%"
 
 # Add specific data plane permissions
 azure-custom-role-tool merge --roles "reader" --filter "blobs/read" --filter-type data
@@ -208,8 +211,8 @@ azure-custom-role-tool merge \
   --filter-type control
 
 # Remove specific dangerous operations
-azure-custom-role-tool remove --filter "*delete*"
-azure-custom-role-tool remove --filter "*deallocate*"
+azure-custom-role-tool remove --filter "%delete%"
+azure-custom-role-tool remove --filter "%deallocate%"
 
 # Save
 azure-custom-role-tool save --name "devops-manager" --overwrite
@@ -222,7 +225,7 @@ azure-custom-role-tool save --name "devops-manager" --overwrite
 azure-custom-role-tool create --name "Audit Viewer" --description "Read-only audit permissions"
 
 # Load and merge reader role
-azure-custom-role-tool merge --roles "reader" --filter "*read*"
+azure-custom-role-tool merge --roles "reader" --filter "%read%"
 
 # Remove sensitive data access
 azure-custom-role-tool remove --filter "keys/read" --filter-type data
@@ -246,8 +249,8 @@ azure-custom-role-tool create --name "DataEngineer-Prod" --description "Producti
 azure-custom-role-tool merge --roles "senior-developer"
 
 # Keep only data-related permissions
-azure-custom-role-tool remove --filter "*Compute*"
-azure-custom-role-tool remove --filter "*Network*"
+azure-custom-role-tool remove --filter "%Compute%"
+azure-custom-role-tool remove --filter "%Network%"
 ```
 
 **Step 2: Review**
@@ -279,10 +282,10 @@ azure-custom-role-tool load --name "dataengineer-prod"
 azure-custom-role-tool view --all
 
 # Add new required permissions
-azure-custom-role-tool merge --roles "senior-developer" --filter "PostgreSQL*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "PostgreSQL%"
 
 # Remove deprecated permissions
-azure-custom-role-tool remove --filter "Legacy*"
+azure-custom-role-tool remove --filter "Legacy%"
 
 # Save and publish
 azure-custom-role-tool save --name "dataengineer-prod" --overwrite
@@ -313,13 +316,13 @@ String filters use wildcard patterns (case-insensitive):
 azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Storage/storageAccounts/read"
 
 # Wildcard match
-azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Storage*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Storage%"
 
 # Partial match
-azure-custom-role-tool merge --roles "senior-developer" --filter "*blobs*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "%blobs%"
 
 # Complex patterns
-azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.*/*/read"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.%/%/read"
 ```
 
 ### Type Filters
@@ -332,7 +335,7 @@ azure-custom-role-tool merge --roles "senior-developer" --filter-type control
 azure-custom-role-tool merge --roles "senior-developer" --filter-type data
 
 # Combine filters
-azure-custom-role-tool merge --roles "senior-developer" --filter "Storage*" --filter-type data
+azure-custom-role-tool merge --roles "senior-developer" --filter "Storage%" --filter-type data
 ```
 
 ## Permission Categories
@@ -360,7 +363,7 @@ Always start restrictive and add permissions as needed:
 ```bash
 # Good: Create empty, add specific permissions
 azure-custom-role-tool create --name "App Developer"
-azure-custom-role-tool merge --roles "basic-reader" --filter "Microsoft.Web*"
+azure-custom-role-tool merge --roles "basic-reader" --filter "Microsoft.Web%"
 
 # Avoid: Creating with wildcard permissions
 azure-custom-role-tool merge --roles "contributor"
@@ -382,8 +385,10 @@ Always remove dangerous operations:
 
 ```bash
 azure-custom-role-tool merge --roles "senior-developer"
-azure-custom-role-tool remove --filter "*delete*"
-azure-custom-role-tool remove --filter "*deallocate*"
+azure-custom-role-tool remove --filter "%delete%"
+azure-custom-role-tool remove --filter "%deallocate%"
+
+Use `%` for wildcard matching and `?` for single-character matching. `*` is treated as a literal character in permission filters.
 ```
 
 ### 4. Version Your Roles

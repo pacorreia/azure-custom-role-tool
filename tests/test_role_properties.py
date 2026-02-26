@@ -6,9 +6,17 @@ import pytest
 
 from azure_custom_role_tool import cli
 from azure_custom_role_tool.role_manager import (
+    RoleManager,
     AzureRoleDefinition,
     PermissionDefinition,
 )
+
+
+@pytest.fixture(autouse=True)
+def isolated_role_manager(monkeypatch, tmp_path: Path):
+    """Use an isolated role manager for each test."""
+    manager = RoleManager(roles_dir=tmp_path / "roles")
+    monkeypatch.setattr(cli, "role_manager", manager)
 
 
 def test_set_name_command(monkeypatch, tmp_path: Path):

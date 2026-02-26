@@ -29,6 +29,11 @@ role_manager = RoleManager()
 
 # Track current subscription
 current_subscription = None
+current_role_file_path: Optional[Path] = None
+
+PROMPT_HISTORY_FILE = Path.home() / ".azure-custom-role-tool-history"
+PROMPT_HISTORY = FileHistory(str(PROMPT_HISTORY_FILE))
+PROMPT_STYLE = Style.from_dict({"prompt": "#00aa00 bold"})
 
 
 # ============================================================================
@@ -55,6 +60,83 @@ def warn(message: str):
 def info(message: str):
     """Print info message."""
     term.print(f"[cyan]ℹ[/cyan] {message}")
+
+
+def _prompt_input(label: str) -> str:
+    """Read input with shared prompt style/history."""
+    return prompt(label, history=PROMPT_HISTORY, style=PROMPT_STYLE)
+
+
+def prompt_text(label: str, default: Optional[str] = None) -> str:
+    """Read a text value using prompt_toolkit when interactive.
+
+    Falls back to click.prompt for non-interactive environments (e.g., tests).
+    """
+    if sys.stdin.isatty() and sys.stdout.isatty():
+        prompt_label = f"{label}: "
+        if default is not None:
+            prompt_label = f"{label} [{default}]: "
+
+        try:
+            value = _prompt_input(prompt_label).strip()
+        except (KeyboardInterrupt, EOFError):
+            error("Input cancelled")
+
+        if value:
+            return value
+        if default is not None:
+            return default
+        error(f"{label} cannot be empty")
+
+    return click.prompt(label, default=default)
+
+
+def prompt_confirm(message: str, default: bool = False) -> bool:
+    """Read yes/no confirmation using prompt_toolkit when interactive.
+
+    Falls back to click.confirm for non-interactive environments (e.g., tests).
+    """
+    if sys.stdin.isatty() and sys.stdout.isatty():
+        default_hint = "Y/n" if default else "y/N"
+
+        while True:
+            try:
+                response = _prompt_input(f"{message} [{default_hint}]: ").strip()
+            except (KeyboardInterrupt, EOFError):
+                term.print("[dim]Deletion cancelled[/dim]")
+                return False
+
+            if not response:
+                return default
+
+            normalized = response.lower()
+            if normalized in {"y", "yes"}:
+                return True
+            if normalized in {"n", "no"}:
+                return False
+
+            term.print("[yellow]Please answer 'y' or 'n'.[/yellow]")
+
+    return click.confirm(message, default=default)
+
+
+def resolve_single_argument(
+    option_value: Optional[str],
+    positional_value: Optional[str],
+    option_name: str,
+    description: str,
+) -> str:
+    """Resolve a command's primary argument from option or positional input."""
+    if option_value and positional_value and option_value != positional_value:
+        error(
+            f"Conflicting values provided. Use either --{option_name} or positional {description}, not both."
+        )
+
+    value = option_value or positional_value
+    if not value:
+        error(f"Missing {description}. Use --{option_name} or pass it as positional argument.")
+
+    return value
 
 
 def require_current_role() -> AzureRoleDefinition:
@@ -86,6 +168,15 @@ def require_subscription(subscription_id: Optional[str] = None) -> str:
             "No subscription selected. Use 'use-subscription' or provide --subscription-id"
         )
     return effective_id
+
+
+def _set_current_role(
+    role: AzureRoleDefinition, source_path: Optional[Path] = None
+) -> None:
+    """Set current role and track its backing file path when available."""
+    global current_role_file_path
+    role_manager.current_role = role
+    current_role_file_path = Path(source_path) if source_path else None
 
 
 def _load_azure_role(
@@ -132,13 +223,29 @@ def cli(ctx):
 
 
 @cli.command()
-@click.option("--name", prompt="Role name", help="Name of the custom role")
-@click.option("--description", prompt="Description", help="Role description")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Name of the custom role")
+@click.option("--description", default=None, help="Role description")
 @click.pass_context
-def create(ctx, name: str, description: str):
+def create(
+    ctx,
+    name_arg: Optional[str],
+    name: Optional[str],
+    description: Optional[str],
+):
     """Create a new custom role from scratch."""
     try:
+        global current_role_file_path
+        if name or name_arg:
+            name = resolve_single_argument(name, name_arg, "name", "role name")
+        else:
+            name = prompt_text("Role name")
+
+        if description is None:
+            description = ""
+
         role = role_manager.create_role(name, description)
+        current_role_file_path = None
         success(f"Created new role: [bold]{role.Name}[/bold]")
         term.print(f"  Description: {role.Description}")
         term.print(f"  ID: {role.Id}")
@@ -148,7 +255,8 @@ def create(ctx, name: str, description: str):
 
 
 @cli.command()
-@click.option("--name", required=True, help="Role name (local or Azure)")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Role name (local or Azure)")
 @click.option(
     "--role-dir",
     type=click.Path(exists=True),
@@ -158,7 +266,12 @@ def create(ctx, name: str, description: str):
 @click.option(
     "--subscription-id", default=None, help="Azure subscription ID for fallback"
 )
-def load(name: str, role_dir: Optional[str], subscription_id: Optional[str]):
+def load(
+    name_arg: Optional[str],
+    name: Optional[str],
+    role_dir: Optional[str],
+    subscription_id: Optional[str],
+):
     """Load an existing role from file, local storage, or Azure.
 
     Tries to load in this order:
@@ -167,19 +280,28 @@ def load(name: str, role_dir: Optional[str], subscription_id: Optional[str]):
     3. Azure role by name (if subscription available)
     """
     try:
+        name = resolve_single_argument(name, name_arg, "name", "role name")
         role = None
+        source_path = None
 
         # Check if name is a direct file path
         name_path = Path(name)
         if name_path.exists() and name_path.is_file():
             # Load directly from the file path
             role = role_manager.load_from_file(name_path)
+            source_path = name_path
             success(f"Loaded role from file: [bold]{role.Name}[/bold]")
         else:
             # Try loading from local storage
             try:
                 role_dir_path = Path(role_dir) if role_dir else None
                 role = role_manager.load_from_name(name, role_dir_path)
+                resolved_role_dir = role_dir_path or role_manager.roles_dir
+                source_path = (
+                    resolved_role_dir / name
+                    if name.endswith(".json")
+                    else resolved_role_dir / f"{name}.json"
+                )
                 success(f"Loaded role from local storage: [bold]{role.Name}[/bold]")
             except FileNotFoundError:
                 # Fall back to Azure
@@ -199,7 +321,7 @@ def load(name: str, role_dir: Optional[str], subscription_id: Optional[str]):
             error(f"Role not found (local or Azure): {name}")
 
         # Set as current role
-        role_manager.current_role = role
+        _set_current_role(role, source_path=source_path)
         print_role_summary(role)
 
     except Exception as e:
@@ -268,12 +390,135 @@ def _load_role_from_azure_by_name(
     return None
 
 
+def _collect_permission_matches(
+    all_roles: list[dict], permission_filter: str
+) -> dict[str, set[str]]:
+    """Collect permission matches and the roles they belong to."""
+    pf = PermissionFilter()
+    matched_permissions: dict[str, set[str]] = {}
+
+    for role in all_roles:
+        role_name = role.get("name", "Unknown")
+        for perm_block in role.get("permissions", []):
+            actions = perm_block.get("actions", [])
+            data_actions = perm_block.get("data_actions", [])
+
+            for permission in pf.filter_by_string(actions, permission_filter):
+                if permission not in matched_permissions:
+                    matched_permissions[permission] = set()
+                matched_permissions[permission].add(role_name)
+
+            for permission in pf.filter_by_string(data_actions, permission_filter):
+                if permission not in matched_permissions:
+                    matched_permissions[permission] = set()
+                matched_permissions[permission].add(role_name)
+
+    return matched_permissions
+
+
+def _collect_permission_matches_typed(
+    all_roles: list[dict], permission_filter: str
+) -> tuple[dict[str, set[str]], dict[str, set[str]]]:
+    """Collect matched control/data permissions and the roles they belong to."""
+    pf = PermissionFilter()
+    matched_actions: dict[str, set[str]] = {}
+    matched_data_actions: dict[str, set[str]] = {}
+
+    for role in all_roles:
+        role_name = role.get("name", "Unknown")
+        for perm_block in role.get("permissions", []):
+            actions = perm_block.get("actions", [])
+            data_actions = perm_block.get("data_actions", [])
+
+            for permission in pf.filter_by_string(actions, permission_filter):
+                if permission not in matched_actions:
+                    matched_actions[permission] = set()
+                matched_actions[permission].add(role_name)
+
+            for permission in pf.filter_by_string(data_actions, permission_filter):
+                if permission not in matched_data_actions:
+                    matched_data_actions[permission] = set()
+                matched_data_actions[permission].add(role_name)
+
+    return matched_actions, matched_data_actions
+
+
+def _import_permissions_into_current_role(
+    matched_actions: dict[str, set[str]], matched_data_actions: dict[str, set[str]]
+) -> tuple[int, int]:
+    """Import matched permissions into the current loaded role.
+
+    Returns:
+        Tuple with number of newly added actions and data actions.
+    """
+    role = require_current_role()
+
+    extracted = PermissionFilter.extract_actions(role.Permissions)
+
+    current_actions = set(extracted["actions"])
+    current_not_actions = set(extracted["not_actions"])
+    current_data_actions = set(extracted["data_actions"])
+    current_not_data_actions = set(extracted["not_data_actions"])
+
+    incoming_actions = set(matched_actions.keys())
+    incoming_data_actions = set(matched_data_actions.keys())
+
+    added_actions = len(incoming_actions - current_actions)
+    added_data_actions = len(incoming_data_actions - current_data_actions)
+
+    merged_actions = sorted(current_actions | incoming_actions)
+    merged_data_actions = sorted(current_data_actions | incoming_data_actions)
+
+    role.Permissions = [
+        PermissionDefinition(
+            Actions=merged_actions,
+            NotActions=sorted(current_not_actions),
+            DataActions=merged_data_actions,
+            NotDataActions=sorted(current_not_data_actions),
+        )
+    ]
+
+    return added_actions, added_data_actions
+
+
+def _print_permission_search_results(
+    matched_permissions: dict[str, set[str]], permission_filter: str
+):
+    """Render permission-centric search results with role context."""
+    if not matched_permissions:
+        term.print(f"No permissions found matching: {permission_filter}")
+        return
+
+    table = Table(title=f"Permissions matching '{permission_filter}'")
+    table.add_column("Permission", style="cyan", no_wrap=False)
+    table.add_column("Roles", style="green")
+    table.add_column("Example Roles", style="yellow", no_wrap=False)
+
+    for permission in sorted(matched_permissions.keys()):
+        roles = sorted(matched_permissions[permission])
+        if len(roles) > 3:
+            role_preview = ", ".join(roles[:3]) + f" (+{len(roles) - 3} more)"
+        else:
+            role_preview = ", ".join(roles)
+        table.add_row(permission, str(len(roles)), role_preview)
+
+    term.print(table)
+    term.print("\n[bold]Full matched permissions:[/bold]")
+    for permission in sorted(matched_permissions.keys()):
+        term.print(f"  • {permission}", soft_wrap=True)
+    term.print(
+        f"Found {len(matched_permissions)} unique permission(s) matching '{permission_filter}'."
+    )
+
+
 @cli.command("load-azure")
-@click.option("--name", required=True, help="Role name to load from Azure")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Role name to load from Azure")
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def load_azure(name: str, subscription_id: Optional[str]):
+def load_azure(name_arg: Optional[str], name: Optional[str], subscription_id: Optional[str]):
     """Load a role from Azure and set as current role."""
     try:
+        name = resolve_single_argument(name, name_arg, "name", "role name")
         # Use provided subscription ID or fall back to current subscription
         effective_subscription_id = require_subscription(subscription_id)
 
@@ -284,7 +529,7 @@ def load_azure(name: str, subscription_id: Optional[str]):
             error(f"Role not found in Azure: {name}")
 
         # Set as current role
-        role_manager.current_role = role
+        _set_current_role(role, source_path=None)
 
         success(f"Loaded role from Azure: [bold]{role.Name}[/bold]")
         print_role_summary(role)
@@ -294,13 +539,14 @@ def load_azure(name: str, subscription_id: Optional[str]):
 
 
 @cli.command()
+@click.argument("roles_arg", required=False)
 @click.option(
-    "--roles", required=True, help="Comma-separated list of role names to merge"
+    "--roles", default=None, help="Comma-separated list of role names to merge"
 )
 @click.option(
     "--filter",
     default=None,
-    help="Filter permissions by string pattern (e.g., 'Storage*')",
+    help="Filter permissions by string pattern (e.g., 'Storage%', '%delete'). '*' is literal.",
 )
 @click.option(
     "--filter-type",
@@ -308,12 +554,18 @@ def load_azure(name: str, subscription_id: Optional[str]):
     default=None,
     help="Filter by permission type",
 )
-def merge(roles: str, filter: Optional[str], filter_type: Optional[str]):
+def merge(
+    roles_arg: Optional[str],
+    roles: Optional[str],
+    filter: Optional[str],
+    filter_type: Optional[str],
+):
     """Merge permissions from multiple roles into the current role.
 
     Roles can be loaded from local storage or fetched from Azure if not found locally.
     """
     try:
+        roles = resolve_single_argument(roles, roles_arg, "roles", "role list")
         require_current_role()
 
         role_names = [r.strip() for r in roles.split(",")]
@@ -522,7 +774,7 @@ def delete_role_cmd(
             # Confirm deletion unless --force flag is used
             if not force:
                 warn(f"Delete role '{name}'?")
-                if click.confirm("Are you sure?", default=False):
+                if prompt_confirm("Are you sure?", default=False):
                     pass
                 else:
                     term.print("[dim]Deletion cancelled[/dim]")
@@ -561,7 +813,7 @@ def delete_role_cmd(
             # Confirm deletion unless --force flag is used
             if not force:
                 term.print()
-                if not click.confirm(
+                if not prompt_confirm(
                     f"Delete {len(matching_roles)} role(s)?", default=False
                 ):
                     term.print("[dim]Deletion cancelled[/dim]")
@@ -585,27 +837,56 @@ def delete_role_cmd(
 
 
 @cli.command()
-@click.option("--name", required=True, help="Output filename (without .json)")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Output filename (without .json)")
 @click.option("--output", type=click.Path(), default=None, help="Custom output path")
 @click.option("--overwrite", is_flag=True, help="Overwrite existing file")
-def save(name: str, output: Optional[str], overwrite: bool):
-    """Save the current role to a file."""
+def save(name_arg: Optional[str], name: Optional[str], output: Optional[str], overwrite: bool):
+    """Save current role (quick-save by default, save-as when name/path is provided)."""
     try:
+        global current_role_file_path
         role = require_current_role()
+        prompt_name: Optional[str] = None
+        requested_name = name or name_arg
 
-        if output:
-            file_path = Path(output)
-        else:
-            file_path = (
-                role_manager.roles_dir / f"{name.lower().replace(' ', '-')}.json"
+        if name and name_arg and name != name_arg:
+            error(
+                "Conflicting values provided. Use either --name or positional output filename, not both."
             )
 
+        if output and not requested_name:
+            requested_name = role.Name
+
+        if requested_name:
+            if output:
+                file_path = Path(output)
+            else:
+                file_path = (
+                    role_manager.roles_dir
+                    / f"{requested_name.lower().replace(' ', '-')}.json"
+                )
+
+            saved_path = role_manager.save_to_file(role, file_path, overwrite=overwrite)
+            current_role_file_path = saved_path
+            success(f"Role saved to: [bold]{saved_path}[/bold]")
+            return
+
+        if current_role_file_path:
+            saved_path = role_manager.save_to_file(
+                role, current_role_file_path, overwrite=True
+            )
+            success(f"Role quick-saved to: [bold]{saved_path}[/bold]")
+            return
+
+        prompt_name = prompt_text("Output filename")
+        file_path = role_manager.roles_dir / f"{prompt_name.lower().replace(' ', '-')}.json"
         saved_path = role_manager.save_to_file(role, file_path, overwrite=overwrite)
+        current_role_file_path = saved_path
         success(f"Role saved to: [bold]{saved_path}[/bold]")
 
     except FileExistsError:
         error(
-            f"File already exists: {output or name}. Use --overwrite to replace",
+            f"File already exists: {output or requested_name or prompt_name}. Use --overwrite to replace",
             exit_code=1,
         )
     except Exception as e:
@@ -613,11 +894,13 @@ def save(name: str, output: Optional[str], overwrite: bool):
 
 
 @cli.command()
-@click.option("--name", required=True, help="Role name")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Role name")
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def publish(name: str, subscription_id: Optional[str]):
+def publish(name_arg: Optional[str], name: Optional[str], subscription_id: Optional[str]):
     """Publish the current role to Azure."""
     try:
+        name = resolve_single_argument(name, name_arg, "name", "role name")
         role = require_current_role()
         effective_subscription_id = require_subscription(subscription_id)
 
@@ -667,16 +950,23 @@ def list_azure(subscription_id: Optional[str]):
 
 
 @cli.command("view-azure")
-@click.option("--name", required=True, help="Role name to view")
+@click.argument("name_arg", required=False)
+@click.option("--name", default=None, help="Role name to view")
 @click.option(
     "--filter",
     default=None,
-    help="Optional: filter to show matching permissions (e.g., 'Storage*', '*delete')",
+    help="Optional: filter to show matching permissions (e.g., 'Storage%', '%delete'). '*' is literal.",
 )
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def view_azure(name: str, filter: Optional[str], subscription_id: Optional[str]):
+def view_azure(
+    name_arg: Optional[str],
+    name: Optional[str],
+    filter: Optional[str],
+    subscription_id: Optional[str],
+):
     """View detailed permissions of an Azure role (built-in or custom)."""
     try:
+        name = resolve_single_argument(name, name_arg, "name", "role name")
         effective_subscription_id = require_subscription(subscription_id)
 
         with term.status("[bold blue]Fetching role from Azure...[/bold blue]"):
@@ -749,59 +1039,76 @@ def view_azure(name: str, filter: Optional[str], subscription_id: Optional[str])
 
 
 @cli.command("search-azure")
+@click.argument("filter_arg", required=False)
 @click.option(
     "--filter",
-    required=True,
-    help="Permission filter pattern (e.g., 'Storage*', '*delete')",
+    default=None,
+    help="Permission filter pattern (e.g., 'Storage%', '%delete'). '*' is literal.",
 )
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def search_azure(filter: str, subscription_id: Optional[str]):
-    """Search for Azure roles containing specific permissions."""
+def search_azure(filter_arg: Optional[str], filter: Optional[str], subscription_id: Optional[str]):
+    """Search Azure permissions by pattern and show which roles include them."""
     try:
+        filter = resolve_single_argument(
+            filter, filter_arg, "filter", "permission filter pattern"
+        )
         effective_subscription_id = require_subscription(subscription_id)
 
         with term.status("[bold blue]Searching roles in Azure...[/bold blue]"):
             azure_client = AzureClient(subscription_id=effective_subscription_id)
             all_roles = azure_client.list_all_roles()
 
-        # Search for roles matching the filter
-        pf = PermissionFilter()
-        matching_roles = []
+        matched_permissions = _collect_permission_matches(all_roles, filter)
+        _print_permission_search_results(matched_permissions, filter)
 
-        for role in all_roles:
-            for perm_block in role.get("permissions", []):
-                actions = perm_block.get("actions", [])
-                data_actions = perm_block.get("data_actions", [])
+    except Exception as e:
+        error(str(e))
 
-                # Apply filter to actions and data actions
-                filtered_actions = pf.filter_by_string(actions, filter)
-                filtered_data = pf.filter_by_string(data_actions, filter)
 
-                if filtered_actions or filtered_data:
-                    matching_roles.append(
-                        {
-                            "name": role["name"],
-                            "id": role["id"],
-                            "type": role["type"],
-                            "permissions_found": len(filtered_actions)
-                            + len(filtered_data),
-                        }
-                    )
-                    break
+@cli.command("import-azure-permissions")
+@click.argument("filter_arg", required=False)
+@click.option(
+    "--filter",
+    "permission_filter",
+    default=None,
+    help="Permission filter pattern (e.g., '%keyvault%/read', 'Microsoft.Storage/%'). '*' is literal.",
+)
+@click.option("--subscription-id", default=None, help="Azure subscription ID")
+def fetch_permissions(
+    filter_arg: Optional[str],
+    permission_filter: Optional[str],
+    subscription_id: Optional[str],
+):
+    """Import matching Azure permissions into the current loaded role."""
+    try:
+        permission_filter = resolve_single_argument(
+            permission_filter, filter_arg, "filter", "permission filter pattern"
+        )
+        role = require_current_role()
+        effective_subscription_id = require_subscription(subscription_id)
 
-        if not matching_roles:
-            term.print(f"No roles found with permissions matching: {filter}")
+        with term.status("[bold blue]Fetching permissions from Azure...[/bold blue]"):
+            azure_client = AzureClient(subscription_id=effective_subscription_id)
+            all_roles = azure_client.list_all_roles()
+
+        matched_permissions = _collect_permission_matches(all_roles, permission_filter)
+        if not matched_permissions:
+            term.print(f"No permissions found matching: {permission_filter}")
             return
 
-        table = Table(title=f"Roles matching '{filter}'")
-        table.add_column("Role Name", style="cyan")
-        table.add_column("Type", style="yellow")
-        table.add_column("Matching Permissions", style="green")
+        matched_actions, matched_data_actions = _collect_permission_matches_typed(
+            all_roles, permission_filter
+        )
 
-        for role in matching_roles:
-            table.add_row(role["name"], role["type"], str(role["permissions_found"]))
+        added_actions, added_data_actions = _import_permissions_into_current_role(
+            matched_actions, matched_data_actions
+        )
 
-        term.print(table)
+        success(
+            f"Imported Azure permissions into [bold]{role.Name}[/bold] "
+            f"(Actions added: {added_actions}, DataActions added: {added_data_actions})"
+        )
+        print_role_summary(role)
 
     except Exception as e:
         error(str(e))
@@ -1081,17 +1388,6 @@ def interactive_mode():
     # Show help menu on startup
     show_help()
 
-    # Set up command history
-    history_file = Path.home() / ".azure-custom-role-tool-history"
-    history = FileHistory(str(history_file))
-
-    # Define prompt style
-    prompt_style = Style.from_dict(
-        {
-            "prompt": "#00aa00 bold",
-        }
-    )
-
     while True:
         try:
             # Display current state
@@ -1112,7 +1408,7 @@ def interactive_mode():
             term.print(f"| Subscription: {sub_display}")
 
             # Use prompt_toolkit for command input with history
-            raw_input = prompt("> ", history=history, style=prompt_style).strip()
+            raw_input = _prompt_input("> ").strip()
 
             # Parse multi-line input, filtering comments and blank lines
             commands = parse_multiline_commands(raw_input)
@@ -1143,7 +1439,7 @@ def interactive_mode():
                     paste_lines = []
                     while True:
                         try:
-                            line = prompt("  ", history=history, style=prompt_style)
+                            line = _prompt_input("  ")
                             if not line.strip():
                                 break
                             paste_lines.append(line)
@@ -1258,35 +1554,53 @@ def run_shell_command(command: str):
 
 def show_help():
     """Show help menu."""
-    term.print("""
-[bold cyan]Available Commands:[/bold cyan]
-  create         - Create a new role from scratch
-  load           - Load a role (local, file, or Azure)
-  merge          - Merge permissions from other roles
-  remove         - Remove permissions
-  set-name       - Change role name
-  set-description - Change role description
-  set-scopes     - Change role assignable scopes
-  list           - List available roles
-  delete         - Delete a local role
-  view           - View current role details
-  save           - Save role to file
-  publish        - Publish role to Azure
-  list-azure     - List custom roles in Azure
-  view-azure     - View detailed permissions of an Azure role
-  search-azure   - Search for Azure roles by permission pattern
-  subscriptions  - List available Azure subscriptions
-  use-subscription - Switch to a different subscription (by --id or --name)
-  help           - Show this help
-  paste          - Enter multi-line paste mode (for scripts with comments)
-  exit           - Exit the tool
+    command_help = [
+        ("create", "Create a new role from scratch"),
+        ("load", "Load a role (local, file, or Azure)"),
+        ("merge", "Merge permissions from other roles"),
+        ("remove", "Remove permissions"),
+        ("set-name", "Change role name"),
+        ("set-description", "Change role description"),
+        ("set-scopes", "Change role assignable scopes"),
+        ("list", "List available roles"),
+        ("delete", "Delete a local role"),
+        ("view", "View current role details"),
+        ("save", "Save role to file"),
+        ("publish", "Publish role to Azure"),
+        ("list-azure", "List custom roles in Azure"),
+        ("view-azure", "View detailed permissions of an Azure role"),
+        ("search-azure", "Search for Azure roles by permission pattern"),
+        (
+            "import-azure-permissions",
+            "Import matching Azure permissions into current role",
+        ),
+        ("subscriptions", "List available Azure subscriptions"),
+        (
+            "use-subscription",
+            "Switch to a different subscription (by --id or --name)",
+        ),
+        ("help", "Show this help"),
+        ("paste", "Enter multi-line paste mode (for scripts with comments)"),
+        ("exit", "Exit the tool"),
+    ]
 
-[bold cyan]Shell Commands:[/bold cyan]
-  !<command>  - Execute a shell command (e.g., !ls -la)
-  shell <cmd> - Execute a shell command (e.g., shell pwd)
+    cmd_width = max(len(command) for command, _ in command_help) + 1
+    command_lines = [
+        f"  {command:<{cmd_width}} - {description}"
+        for command, description in command_help
+    ]
 
-Use 'help <command>' for detailed information about a specific command.
-    """)
+    help_lines = [
+        "[bold cyan]Available Commands:[/bold cyan]",
+        *command_lines,
+        "",
+        "[bold cyan]Shell Commands:[/bold cyan]",
+        "  !<command>  - Execute a shell command (e.g., !ls -la)",
+        "  shell <cmd> - Execute a shell command (e.g., shell pwd)",
+        "",
+        "Use 'help <command>' for detailed information about a specific command.",
+    ]
+    term.print("\n" + "\n".join(help_lines))
 
 
 def show_command_help(command_name: str):

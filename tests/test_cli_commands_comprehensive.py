@@ -17,6 +17,7 @@ def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     """Configure a test role manager."""
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 
@@ -42,7 +43,7 @@ class TestRemoveCommand:
         manager.current_role = role
 
         # Remove only Storage permissions
-        result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/*"])
+        result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/%"])
 
         assert result.exit_code == 0
         assert "Removed permissions" in result.output
@@ -130,7 +131,7 @@ class TestRemoveCommand:
         # Remove only Storage control plane permissions
         result = runner.invoke(
             cli.cli,
-            ["remove", "--filter", "Microsoft.Storage/*", "--filter-type", "control"],
+            ["remove", "--filter", "Microsoft.Storage/%", "--filter-type", "control"],
         )
 
         assert result.exit_code == 0
@@ -157,7 +158,7 @@ class TestRemoveCommand:
         manager.current_role = role
 
         # Remove all permissions
-        result = runner.invoke(cli.cli, ["remove", "--filter", "*"])
+        result = runner.invoke(cli.cli, ["remove", "--filter", "%"])
 
         assert result.exit_code == 0
         assert len(manager.current_role.Permissions) == 0
@@ -175,7 +176,7 @@ class TestRemoveCommand:
         manager.current_role = role
 
         # Try to remove Compute permissions (none exist)
-        result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Compute/*"])
+        result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Compute/%"])
 
         assert result.exit_code == 0
         # Original permissions should remain
@@ -489,6 +490,42 @@ class TestSaveCommand:
         # Try to save again without overwrite flag
         result2 = runner.invoke(cli.cli, ["save", "--name", "duplicate"])
         assert result2.exit_code != 0
+
+    def test_save_without_args_quick_saves_to_previous_path(
+        self, monkeypatch, tmp_path: Path
+    ):
+        """Test save without args reuses the previous saved filename/path."""
+        runner = CliRunner()
+        manager = configure_manager(monkeypatch, tmp_path)
+
+        role = manager.create_role("Quick Save", "Initial")
+        manager.current_role = role
+
+        first = runner.invoke(cli.cli, ["save", "--name", "quick-save", "--overwrite"])
+        assert first.exit_code == 0
+
+        role.Description = "Updated"
+        second = runner.invoke(cli.cli, ["save"])
+
+        assert second.exit_code == 0
+        assert "quick-saved" in second.output
+        assert (tmp_path / "quick-save.json").exists()
+
+    def test_save_without_args_prompts_filename_when_never_saved(
+        self, monkeypatch, tmp_path: Path
+    ):
+        """Test save without args asks for filename when role was never saved."""
+        runner = CliRunner()
+        manager = configure_manager(monkeypatch, tmp_path)
+
+        role = manager.create_role("Prompt Save", "Desc")
+        manager.current_role = role
+
+        result = runner.invoke(cli.cli, ["save"], input="prompt-target\n")
+
+        assert result.exit_code == 0
+        assert "Output filename" in result.output
+        assert (tmp_path / "prompt-target.json").exists()
 
 
 class TestListCommand:

@@ -4,7 +4,7 @@
 [![Coverage](https://img.shields.io/endpoint?url=https://pacorreia.github.io/azure-custom-role-tool/badges/coverage.json)](https://github.com/pacorreia/azure-custom-role-tool/actions/workflows/python-ci.yml)
 [![Version](https://img.shields.io/github/v/release/pacorreia/azure-custom-role-tool?style=flat-square)](https://github.com/pacorreia/azure-custom-role-tool/releases)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/github/license/pacorreia/azure-custom-role-tool)](LICENSE)
+[![License](https://img.shields.io/github/license/pacorreia/azure-custom-role-tool)](https://github.com/pacorreia/azure-custom-role-tool/blob/main/LICENSE)
 
 ## Welcome
 
@@ -58,6 +58,7 @@ API and command reference:
 For developers and contributors:
 - [Code Refactoring](development/code-refactoring.md)
 - [Implementation Summary](development/implementation-summary.md)
+- [Test Isolation Rule](development/index.md#test-isolation-rule)
 
 ## Key Concepts
 
@@ -70,7 +71,7 @@ Run `azure-custom-role-tool console` to enter an interactive shell with:
 
 ### Permission Filtering
 Filter permissions by:
-- **String pattern**: `Microsoft.Storage*`, `*read*`
+- **String pattern**: `Microsoft.Storage%`, `%read%` (`*` is literal)
 - **Type**: `control` (management) or `data` (data operations)
 - **Combination**: Both string and type filters together
 

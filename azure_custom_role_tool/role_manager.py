@@ -6,7 +6,7 @@ import json
 import uuid
 from pathlib import Path
 from typing import Dict, List, Optional, Set
-from datetime import datetime
+from datetime import datetime, timezone
 from pydantic import BaseModel, Field
 
 from .permission_filter import PermissionFilter, PermissionType
@@ -78,8 +78,8 @@ class RoleManager:
             Name=name,
             Description=description,
             Id=f"custom-{uuid.uuid4().hex[:8]}",
-            CreatedOn=datetime.utcnow().isoformat(),
-            UpdatedOn=datetime.utcnow().isoformat(),
+            CreatedOn=datetime.now(timezone.utc).isoformat(),
+            UpdatedOn=datetime.now(timezone.utc).isoformat(),
             Permissions=[PermissionDefinition()],
         )
         return self.current_role
@@ -170,7 +170,7 @@ class RoleManager:
 
         file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        role.UpdatedOn = datetime.utcnow().isoformat()
+        role.UpdatedOn = datetime.now(timezone.utc).isoformat()
 
         with open(file_path, "w") as f:
             f.write(role.to_json())
@@ -263,7 +263,7 @@ class RoleManager:
             )
         ]
 
-        self.current_role.UpdatedOn = datetime.utcnow().isoformat()
+        self.current_role.UpdatedOn = datetime.now(timezone.utc).isoformat()
         return self.current_role
 
     def remove_permissions(
@@ -322,7 +322,7 @@ class RoleManager:
         else:
             self.current_role.Permissions = []
 
-        self.current_role.UpdatedOn = datetime.utcnow().isoformat()
+        self.current_role.UpdatedOn = datetime.now(timezone.utc).isoformat()
         return self.current_role
 
     def list_roles(self, role_dir: Path = None) -> List[str]:

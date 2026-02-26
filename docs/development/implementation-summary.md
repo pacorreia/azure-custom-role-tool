@@ -81,7 +81,7 @@ azure-custom-role-tool create --name "MyRole" --description "Description"
 
 ### ✅ Cherry pick from other roles
 ```bash
-azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Storage*"
+azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Storage%"
 ```
 
 ### ✅ Merge one or more permissions from existing roles
@@ -91,7 +91,7 @@ azure-custom-role-tool merge --roles "role1,role2,role3"
 
 ### ✅ Filter by string in permission
 ```bash
-azure-custom-role-tool merge --roles "source" --filter "*blobs*"
+azure-custom-role-tool merge --roles "source" --filter "%blobs%"
 ```
 
 ### ✅ Filter by control/data permissions
@@ -101,12 +101,12 @@ azure-custom-role-tool merge --roles "source" --filter-type data
 
 ### ✅ Remove permissions based on existing role
 ```bash
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 ### ✅ Remove permissions with same filters
 ```bash
-azure-custom-role-tool remove --filter "*delete*" --filter-type control
+azure-custom-role-tool remove --filter "%delete%" --filter-type control
 ```
 
 ## 📁 Complete File Structure
@@ -154,9 +154,10 @@ az login
 
 ```bash
 azure-custom-role-tool create --name "MyRole" --description "My custom role"
-azure-custom-role-tool merge --roles "senior-developer" --filter "Storage*"
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Storage%"
+azure-custom-role-tool remove --filter "%delete%"
 azure-custom-role-tool save --name "my-role"
+azure-custom-role-tool save
 azure-custom-role-tool publish --name "my-role"
 ```
 
@@ -169,7 +170,8 @@ azure-custom-role-tool
 ## 🎨 Key Features
 
 ### Powerful Filtering
-- String patterns with wildcards: `Microsoft.Storage*`, `*read`, `*blobs*`
+- String patterns with wildcards: `Microsoft.Storage%`, `%read`, `%blobs%`
+- `*` is treated as a literal character
 - Permission type filtering: `control` or `data` plane
 - Combinable filters for precision
 
@@ -217,8 +219,8 @@ azure-custom-role-tool
 ```bash
 azure-custom-role-tool create --name "AppDeveloper" --description "App development"
 azure-custom-role-tool merge --roles "junior-developer,reader"
-azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Web*"
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool merge --roles "senior-developer" --filter "Microsoft.Web%"
+azure-custom-role-tool remove --filter "%delete%"
 azure-custom-role-tool save --name "app-developer"
 ```
 
@@ -232,15 +234,15 @@ azure-custom-role-tool merge --roles "senior-developer"
 azure-custom-role-tool create --name "DataEng-Prod"
 azure-custom-role-tool merge --roles "data-reader"
 azure-custom-role-tool merge --roles "pipeline-operator"
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 ### Example 3: Team Permissions
 ```bash
 azure-custom-role-tool create --name "CloudOpsTeam"
 azure-custom-role-tool merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
-azure-custom-role-tool remove --filter "*delete*"
-azure-custom-role-tool remove --filter "*deallocate*"
+azure-custom-role-tool remove --filter "%delete%"
+azure-custom-role-tool remove --filter "%deallocate%"
 azure-custom-role-tool publish
 ```
 

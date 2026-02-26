@@ -16,6 +16,7 @@ from azure_custom_role_tool.role_manager import (
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 
@@ -48,7 +49,7 @@ def test_merge_unexpected_error(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(manager, "merge_roles", raise_error)
 
     result = runner.invoke(
-        cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/*"]
+        cli.cli, ["merge", "--roles", "source", "--filter", "Microsoft.Storage/%"]
     )
     assert result.exit_code != 0
     assert "Error" in result.output
@@ -64,7 +65,7 @@ def test_remove_unexpected_error(monkeypatch, tmp_path: Path):
 
     monkeypatch.setattr(manager, "remove_permissions", raise_error)
 
-    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/%"])
     assert result.exit_code != 0
     assert "Error" in result.output
 
@@ -214,7 +215,7 @@ def test_remove_no_current_role(monkeypatch, tmp_path: Path):
     runner = CliRunner()
     configure_manager(monkeypatch, tmp_path)
 
-    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/%"])
     assert result.exit_code != 0
     assert "No current role" in result.output
 
@@ -224,7 +225,7 @@ def test_remove_success(monkeypatch, tmp_path: Path):
     manager = configure_manager(monkeypatch, tmp_path)
     manager.create_role("Remove", "Desc")
 
-    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/*"])
+    result = runner.invoke(cli.cli, ["remove", "--filter", "Microsoft.Storage/%"])
     assert result.exit_code == 0
     assert "Removed permissions" in result.output
 

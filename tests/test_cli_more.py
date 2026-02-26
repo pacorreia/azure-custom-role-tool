@@ -13,6 +13,7 @@ from azure_custom_role_tool.role_manager import (
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 
@@ -71,7 +72,7 @@ def test_merge_with_missing_role_warning(monkeypatch, tmp_path: Path):
             "--roles",
             "source-role,missing-role",
             "--filter",
-            "Microsoft.Storage/*",
+            "Microsoft.Storage/%",
         ],
     )
 

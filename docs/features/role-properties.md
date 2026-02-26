@@ -80,9 +80,13 @@ Complete role customization workflow:
 > view
 [Shows updated role with all customizations]
 
-# 5. Save the role locally
-> save --name "custom-contributor" --overwrite
+# 5. Save the role locally (first save)
+> save --name "custom-contributor"
 ✓ Saved role to: roles/custom-contributor.json
+
+# 5b. Quick-save after more changes
+> save
+✓ Role quick-saved to: roles/custom-contributor.json
 
 # 6. Publish to Azure
 > publish

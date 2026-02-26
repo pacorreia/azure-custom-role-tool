@@ -119,12 +119,12 @@ exit"""
 
     def test_command_with_pipes_and_quotes(self):
         """Test that commands with pipes and quotes are preserved exactly."""
-        input_text = """view --filter 'Microsoft.Compute/*' | grep 'Provider'
+        input_text = """view --filter 'Microsoft.Compute/%' | grep 'Provider'
 create-custom --tags "env=prod,type=custom" """
         result = parse_multiline_commands(input_text)
         # These special characters should be preserved (parsing happens later with shlex)
         assert result == [
-            "view --filter 'Microsoft.Compute/*' | grep 'Provider'",
+            "view --filter 'Microsoft.Compute/%' | grep 'Provider'",
             'create-custom --tags "env=prod,type=custom"',
         ]
 
@@ -140,7 +140,7 @@ view
 
     def test_commands_with_long_descriptions(self):
         """Test commands with long multi-word arguments."""
-        input_text = """merge --role-dir /path/to/role --permissions Microsoft.Compute/virtualmachines/*
+        input_text = """merge --role-dir /path/to/role --permissions Microsoft.Compute/virtualmachines/%
 set-description --description "A role for managing VMs and storage accounts with limited permissions\""""
         result = parse_multiline_commands(input_text)
         assert len(result) == 2

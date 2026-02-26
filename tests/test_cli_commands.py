@@ -33,6 +33,7 @@ class DummyAzureClient:
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 
@@ -63,6 +64,28 @@ def test_create_load_save_view_list(monkeypatch, tmp_path: Path):
     assert "Test Role" in view_result.output
 
 
+def test_create_with_positional_name(monkeypatch, tmp_path: Path):
+    runner = CliRunner()
+    configure_manager(monkeypatch, tmp_path)
+
+    result = runner.invoke(cli.cli, ["create", "Positional Role"])
+
+    assert result.exit_code == 0
+    assert "Created new role" in result.output
+    assert "Positional Role" in result.output
+
+
+def test_create_without_description(monkeypatch, tmp_path: Path):
+    runner = CliRunner()
+    configure_manager(monkeypatch, tmp_path)
+
+    result = runner.invoke(cli.cli, ["create", "No Description Role"])
+
+    assert result.exit_code == 0
+    assert "Created new role" in result.output
+    assert "No Description Role" in result.output
+
+
 def test_merge_command(monkeypatch, tmp_path: Path):
     runner = CliRunner()
     manager = configure_manager(monkeypatch, tmp_path)
@@ -78,7 +101,7 @@ def test_merge_command(monkeypatch, tmp_path: Path):
     manager.save_to_roles_dir(source, overwrite=True)
 
     result = runner.invoke(
-        cli.cli, ["merge", "--roles", "source-role", "--filter", "Microsoft.Storage/*"]
+        cli.cli, ["merge", "--roles", "source-role", "--filter", "Microsoft.Storage/%"]
     )
 
     assert result.exit_code == 0

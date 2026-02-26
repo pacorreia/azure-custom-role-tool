@@ -2,6 +2,13 @@
 
 Internal documentation for developers working on Azure Custom Role Designer.
 
+## Test Isolation Rule
+
+- Unit tests must never create files under repository `roles/`.
+- Tests that need local role files should use temporary directories via `tmp_path`, for example:
+	- `RoleManager(roles_dir=tmp_path / "roles")`
+- The regression guard `tests/test_roles_dir_clean.py` verifies that `roles/` only contains `.gitkeep`.
+
 ## Available Resources
 
 ### [Code Refactoring Summary](code-refactoring.md)

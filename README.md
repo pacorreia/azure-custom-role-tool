@@ -117,7 +117,7 @@ azure-custom-role-tool load --name "existing-role"
 azure-custom-role-tool merge --roles role1,role2,role3 --filter "Storage" --filter-type control
 
 # Remove permissions
-azure-custom-role-tool remove --filter "*/Delete/*" --filter-type data
+azure-custom-role-tool remove --filter "%/Delete/%" --filter-type data
 
 # List available roles
 azure-custom-role-tool list
@@ -125,8 +125,14 @@ azure-custom-role-tool list
 # View role details
 azure-custom-role-tool view --name "role-name"
 
-# Save role locally
-azure-custom-role-tool save --name "role-name" --output roles/my-role.json
+# First save (save-as)
+azure-custom-role-tool save --name "role-name"
+
+# Quick-save using the same filename/path as previous save
+azure-custom-role-tool save
+
+# Save-as to a new target
+azure-custom-role-tool save --name "role-name-v2" --output roles/my-role-v2.json
 
 # Publish to Azure
 azure-custom-role-tool publish --name "role-name"
@@ -199,6 +205,12 @@ See the `examples/` directory for pre-built roles like:
 ## Contributing
 
 For issues or feature requests, open a GitHub issue.
+
+### Testing Guidelines
+
+- Tests must not write files into repository `roles/`.
+- When tests need role persistence, use an isolated `RoleManager(roles_dir=tmp_path / "roles")`.
+- A regression guard test (`tests/test_roles_dir_clean.py`) enforces that `roles/` contains only `.gitkeep` after test runs.
 
 ## License
 

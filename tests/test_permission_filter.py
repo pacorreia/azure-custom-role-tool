@@ -8,7 +8,7 @@ def test_filter_by_string_wildcard():
         "Microsoft.Storage/storageAccounts/listKeys/action",
     ]
 
-    filtered = PermissionFilter.filter_by_string(actions, "Microsoft.Storage/*")
+    filtered = PermissionFilter.filter_by_string(actions, "Microsoft.Storage/%")
 
     assert "Microsoft.Storage/storageAccounts/read" in filtered
     assert "Microsoft.Storage/storageAccounts/listKeys/action" in filtered
@@ -49,16 +49,27 @@ def test_classify_permissions_and_control_plane():
     )
 
 
-def test_filter_by_string_invalid_regex():
+def test_filter_by_string_literal_star_not_wildcard():
+    actions = [
+        "Microsoft.Authorization/*/read",
+        "Microsoft.Storage/storageAccounts/read",
+        "Microsoft.Authorization/roleAssignments/read",
+    ]
+
+    filtered = PermissionFilter.filter_by_string(actions, "Microsoft.Authorization/*/read")
+
+    assert filtered == ["Microsoft.Authorization/*/read"]
+
+
+def test_filter_by_string_substring_when_no_wildcard_tokens():
     actions = [
         "Microsoft.Storage/storageAccounts/read",
         "Microsoft.Compute/virtualMachines/read",
     ]
 
-    # Invalid regex falls back to substring matching
-    filtered = PermissionFilter.filter_by_string(actions, "[")
+    filtered = PermissionFilter.filter_by_string(actions, "storageaccounts")
 
-    assert filtered == []
+    assert filtered == ["Microsoft.Storage/storageAccounts/read"]
 
 
 def test_filter_permissions_combined():
@@ -69,7 +80,7 @@ def test_filter_permissions_combined():
 
     filtered = PermissionFilter.filter_permissions(
         actions,
-        string_filter="Microsoft.Storage/*",
+        string_filter="Microsoft.Storage/%",
         type_filter=PermissionType.DATA,
     )
 

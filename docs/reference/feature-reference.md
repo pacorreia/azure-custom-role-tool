@@ -29,7 +29,7 @@ Selectively choose specific permissions from existing roles:
 azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Storage/storageAccounts/read"
 
 # Merge specific action patterns
-azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Web*"
+azure-custom-role-tool merge --roles "source-role" --filter "Microsoft.Web%"
 ```
 
 **Features:**
@@ -47,10 +47,10 @@ Combine permissions from multiple source roles simultaneously:
 azure-custom-role-tool merge --roles "role1,role2,role3"
 
 # With filtering
-azure-custom-role-tool merge --roles "junior-dev,reader,viewer" --filter "*read*"
+azure-custom-role-tool merge --roles "junior-dev,reader,viewer" --filter "%read%"
 
 # Multiple filters
-azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage%" --filter-type data
 ```
 
 **Features:**
@@ -65,26 +65,27 @@ Search and filter permissions by text patterns:
 
 ```bash
 # Simple wildcard
-azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage%"
 
 # Partial match
-azure-custom-role-tool merge --roles "senior-dev" --filter "*blobs*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "%blobs%"
 
 # Complex pattern
-azure-custom-role-tool merge --roles "senior-dev" --filter "Microsoft.Storage/storageAccounts/blobServices/*"
+azure-custom-role-tool merge --roles "senior-dev" --filter "Microsoft.Storage/storageAccounts/blobServices/%"
 ```
 
 **Filter Syntax:**
-- `*` for wildcards: `Microsoft.Storage*` matches all Storage services
+- `%` for multi-character wildcards: `Microsoft.Storage%` matches all Storage services
+- `?` for single-character wildcards
+- `*` is treated as a literal character
 - Case-insensitive matching
-- Supports partial token matching: `*/read` matches any read operations
-- Regex patterns (optional advanced usage)
+- Supports partial token matching: `%/read` matches any read operations
 
 **Examples:**
-- `Microsoft.Storage*` - All Storage service operations
-- `*read` - All read operations
-- `Microsoft.*/*/write` - Write operations on any service
-- `*Blob*/` - Blob-related operations
+- `Microsoft.Storage%` - All Storage service operations
+- `%read` - All read operations
+- `Microsoft.%/%/write` - Write operations on any service
+- `%Blob%/` - Blob-related operations
 
 ### ✅ 5. Filter by Permission Type
 
@@ -98,7 +99,7 @@ azure-custom-role-tool merge --roles "senior-dev" --filter-type control
 azure-custom-role-tool merge --roles "senior-dev" --filter-type data
 
 # Combined with string filter
-azure-custom-role-tool merge --roles "senior-dev" --filter "Storage*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "Storage%" --filter-type data
 ```
 
 **Permission Types:**
@@ -121,17 +122,17 @@ Filter and remove specific permissions from the current role:
 
 ```bash
 # Remove by pattern
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%delete%"
 
 # Remove by type
 azure-custom-role-tool remove --filter-type data
 
 # Combined filtering
-azure-custom-role-tool remove --filter "Microsoft.Storage*" --filter-type control
+azure-custom-role-tool remove --filter "Microsoft.Storage%" --filter-type control
 
 # Remove dangerous operations
-azure-custom-role-tool remove --filter "*deallocate*"
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%deallocate%"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 **Features:**
@@ -150,10 +151,13 @@ azure-custom-role-tool load --name "my-role"
 # Load from custom directory
 azure-custom-role-tool load --name "my-role" --role-dir ./archive
 
-# Save to default directory
+# First save (save-as)
 azure-custom-role-tool save --name "my-role"
 
-# Save to custom location
+# Quick-save using previous filename/path
+azure-custom-role-tool save
+
+# Save-as to custom location
 azure-custom-role-tool save --name "my-role" --output ./roles/my-role.json
 
 # Overwrite existing
@@ -237,11 +241,11 @@ azure-custom-role-tool create --name "BuildingRole" --description "Incrementally
 azure-custom-role-tool merge --roles "reader"
 
 # Add specific data access
-azure-custom-role-tool merge --roles "senior-dev" --filter "*Blob*" --filter-type data
+azure-custom-role-tool merge --roles "senior-dev" --filter "%Blob%" --filter-type data
 
 # Add storage management (but not delete)
-azure-custom-role-tool merge --roles "storage-admin" --filter "Microsoft.Storage*"
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool merge --roles "storage-admin" --filter "Microsoft.Storage%"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 ### Pattern 2: Role Specialization from Broad Base
@@ -252,12 +256,12 @@ azure-custom-role-tool create --name "WebDeveloper" --description "Web developer
 azure-custom-role-tool merge --roles "contributor"
 
 # Remove unnecessary resources
-azure-custom-role-tool remove --filter "Microsoft.Compute*"
-azure-custom-role-tool remove --filter "Microsoft.Network*"
-azure-custom-role-tool remove --filter "Microsoft.Sql*"
+azure-custom-role-tool remove --filter "Microsoft.Compute%"
+azure-custom-role-tool remove --filter "Microsoft.Network%"
+azure-custom-role-tool remove --filter "Microsoft.Sql%"
 
 # Remove dangerous operations
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 ### Pattern 3: Role Combination for Teams
@@ -270,7 +274,7 @@ azure-custom-role-tool create --name "CloudOpsTeam" --description "Combined Clou
 azure-custom-role-tool merge --roles "devops-developer,infrastructure-admin,monitoring-reader"
 
 # Remove conflicts/sensitive ops
-azure-custom-role-tool remove --filter "*delete*"
+azure-custom-role-tool remove --filter "%delete%"
 ```
 
 ### Pattern 4: Environment-Specific Roles
@@ -283,7 +287,7 @@ azure-custom-role-tool merge --roles "senior-developer"
 # Production role - restrictive
 azure-custom-role-tool create --name "DataEng-Prod" --description "Prod environment"
 azure-custom-role-tool merge --roles "data-reader"
-azure-custom-role-tool merge --roles "pipeline-operator" --filter "Pipeline*"
+azure-custom-role-tool merge --roles "pipeline-operator" --filter "Pipeline%"
 ```
 
 ## Command Reference
@@ -305,7 +309,7 @@ azure-custom-role-tool merge --roles "pipeline-operator" --filter "Pipeline*"
 | `remove` | Remove permissions | `--filter`, `--filter-type` |
 | `list` | List roles | `--name`, `--role-dir` |
 | `list-azure` | List Azure roles | `--subscription-id` |
-| `save` | Save role locally | `--name`, `--output`, `--overwrite` |
+| `save` | Quick-save current role (or save-as) | `--name`, `--output`, `--overwrite` |
 | `publish` | Publish to Azure | `--name`, `--subscription-id` |
 | `view` | View current role | `--all` |
 
@@ -374,10 +378,13 @@ azure-custom-role-tool/
 | Pattern | Matches | Example |
 |---------|---------|---------|
 | `Exact` | Exact match | `Microsoft.Storage/storageAccounts/read` |
-| `*` | Wildcard | `Microsoft.Storage*` |
-| `prefix*` | Starts with | `Microsoft.Compute*` |
-| `*suffix` | Ends with | `*/read` |
-| `*middle*` | Contains | `*blobs*` |
+| `%` | Multi-character wildcard | `Microsoft.Storage%` |
+| `prefix%` | Starts with | `Microsoft.Compute%` |
+| `%suffix` | Ends with | `%/read` |
+| `%middle%` | Contains | `%blobs%` |
+| `?` | Single-character wildcard | `Microsoft.Sql/servers?/read` |
+
+`*` is treated as a literal character in permission filters.
 
 ### Type Filters
 

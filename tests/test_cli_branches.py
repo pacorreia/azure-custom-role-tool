@@ -16,6 +16,7 @@ from azure_custom_role_tool.role_manager import (
 def configure_manager(monkeypatch, tmp_path: Path) -> RoleManager:
     manager = RoleManager(roles_dir=tmp_path)
     monkeypatch.setattr(cli, "role_manager", manager)
+    monkeypatch.setattr(cli, "current_role_file_path", None)
     return manager
 
 

@@ -17,6 +17,9 @@ class PermissionType(Enum):
 class PermissionFilter:
     """Utilities for filtering and searching role permissions."""
 
+    WILDCARD_ANY = "%"
+    WILDCARD_SINGLE = "?"
+
     @staticmethod
     def is_data_plane(action: str) -> bool:
         """
@@ -87,28 +90,41 @@ class PermissionFilter:
     @staticmethod
     def filter_by_string(actions: List[str], pattern: str) -> List[str]:
         """
-        Filter permissions by string matching (case-insensitive wildcard).
+        Filter permissions by string matching.
 
         Args:
             actions: List of permission action strings
-            pattern: Search pattern (supports * wildcards and regex)
+            pattern: Search pattern.
+                - Use '%' for multi-character wildcard
+                - Use '?' for single-character wildcard
+                - '*' is treated as a literal character
 
         Returns:
             Filtered list of matching permissions
         """
-        # Convert wildcard pattern to regex
-        regex_pattern = pattern.replace("*", ".*").replace("/", r"\/")
-        regex_pattern = (
-            f"^{regex_pattern}$" if not regex_pattern.endswith(".*") else regex_pattern
+        has_wildcards = (
+            PermissionFilter.WILDCARD_ANY in pattern
+            or PermissionFilter.WILDCARD_SINGLE in pattern
         )
 
-        try:
-            compiled_pattern = re.compile(regex_pattern, re.IGNORECASE)
-            return [action for action in actions if compiled_pattern.search(action)]
-        except re.error:
-            # If regex fails, do simple case-insensitive substring match
+        # No wildcard token: substring match (case-insensitive), with '*' treated literally.
+        if not has_wildcards:
             pattern_lower = pattern.lower()
             return [action for action in actions if pattern_lower in action.lower()]
+
+        # Wildcard pattern: convert to anchored regex
+        regex_parts = []
+        for char in pattern:
+            if char == PermissionFilter.WILDCARD_ANY:
+                regex_parts.append(".*")
+            elif char == PermissionFilter.WILDCARD_SINGLE:
+                regex_parts.append(".")
+            else:
+                regex_parts.append(re.escape(char))
+
+        regex_pattern = "^" + "".join(regex_parts) + "$"
+        compiled_pattern = re.compile(regex_pattern, re.IGNORECASE)
+        return [action for action in actions if compiled_pattern.match(action)]
 
     @staticmethod
     def filter_by_type(

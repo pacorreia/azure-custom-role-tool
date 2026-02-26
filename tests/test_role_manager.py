@@ -58,7 +58,7 @@ def test_merge_roles_with_filters(tmp_path: Path):
 
     updated = manager.merge_roles(
         [source],
-        string_filter="Microsoft.Storage/*",
+        string_filter="Microsoft.Storage/%",
         type_filter=PermissionType.CONTROL,
     )
 
@@ -82,7 +82,7 @@ def test_remove_permissions(tmp_path: Path):
         )
     ]
 
-    updated = manager.remove_permissions(string_filter="Microsoft.Storage/*")
+    updated = manager.remove_permissions(string_filter="Microsoft.Storage/%")
 
     assert updated.Permissions == []
 
