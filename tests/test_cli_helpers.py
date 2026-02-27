@@ -102,7 +102,7 @@ def test_interactive_mode_commands(monkeypatch):
     def fake_shell(command):
         called["count"] += 1
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
     monkeypatch.setattr(cli, "run_shell_command", fake_shell)
 
     with cli.term.capture() as capture:

@@ -15,9 +15,10 @@ from typing import Optional
 import click
 from rich.console import Console
 from rich.table import Table
-from prompt_toolkit import prompt
+from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
+from prompt_toolkit.completion import WordCompleter
 
 from .role_manager import RoleManager, AzureRoleDefinition, PermissionDefinition
 from .permission_filter import PermissionFilter, PermissionType
@@ -34,6 +35,14 @@ current_role_file_path: Optional[Path] = None
 PROMPT_HISTORY_FILE = Path.home() / ".azure-custom-role-tool-history"
 PROMPT_HISTORY = FileHistory(str(PROMPT_HISTORY_FILE))
 PROMPT_STYLE = Style.from_dict({"prompt": "#00aa00 bold"})
+
+# Create a PromptSession with Tab-only completion (no auto-show dropdown)
+PROMPT_SESSION = PromptSession(
+    history=PROMPT_HISTORY,
+    style=PROMPT_STYLE,
+    complete_style="readline",  # Tab-only completion
+    complete_while_typing=False,  # Don't show completion menu as you type
+)
 
 
 # ============================================================================
@@ -62,9 +71,19 @@ def info(message: str):
     term.print(f"[cyan]ℹ[/cyan] {message}")
 
 
-def _prompt_input(label: str) -> str:
-    """Read input with shared prompt style/history."""
-    return prompt(label, history=PROMPT_HISTORY, style=PROMPT_STYLE)
+def _prompt_input(label: str, completer=None) -> str:
+    """Read input with shared prompt style/history and optional auto-complete.
+    
+    Uses readline-style Tab-only completion (no popup).
+    
+    Args:
+        label: Prompt label text
+        completer: Optional prompt_toolkit completer for auto-complete
+    
+    Returns:
+        User input
+    """
+    return PROMPT_SESSION.prompt(label, completer=completer)
 
 
 def prompt_text(label: str, default: Optional[str] = None) -> str:
@@ -1038,7 +1057,7 @@ def view_azure(
         error(str(e))
 
 
-@cli.command("search-azure")
+@cli.command("search-permissions")
 @click.argument("filter_arg", required=False)
 @click.option(
     "--filter",
@@ -1046,8 +1065,8 @@ def view_azure(
     help="Permission filter pattern (e.g., 'Storage%', '%delete'). '*' is literal.",
 )
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def search_azure(filter_arg: Optional[str], filter: Optional[str], subscription_id: Optional[str]):
-    """Search Azure permissions by pattern and show which roles include them."""
+def search_permissions(filter_arg: Optional[str], filter: Optional[str], subscription_id: Optional[str]):
+    """Search for permissions by pattern and show which roles include them."""
     try:
         filter = resolve_single_argument(
             filter, filter_arg, "filter", "permission filter pattern"
@@ -1074,7 +1093,7 @@ def search_azure(filter_arg: Optional[str], filter: Optional[str], subscription_
     help="Permission filter pattern (e.g., '%keyvault%/read', 'Microsoft.Storage/%'). '*' is literal.",
 )
 @click.option("--subscription-id", default=None, help="Azure subscription ID")
-def fetch_permissions(
+def import_azure_permissions(
     filter_arg: Optional[str],
     permission_filter: Optional[str],
     subscription_id: Optional[str],
@@ -1381,6 +1400,26 @@ def parse_multiline_commands(text: str) -> list[str]:
     return commands
 
 
+
+
+def _get_available_commands() -> list[str]:
+    """Get list of available CLI commands dynamically.
+    
+    This function extracts command names from the CLI group, making auto-complete
+    automatically available for new commands without code changes.
+    
+    Returns:
+        List of available command names
+    """
+    commands = []
+    if hasattr(cli, "commands"):
+        commands = list(cli.commands.keys())
+    
+    # Add special console commands that aren't in cli.commands
+    console_commands = ["help", "paste", "exit", "quit", "!"]
+    return sorted(commands + console_commands)
+
+
 def interactive_mode():
     """Launch interactive menu."""
     term.print("[bold cyan]Azure Custom Role Designer[/bold cyan]\n")
@@ -1407,8 +1446,11 @@ def interactive_mode():
             )
             term.print(f"| Subscription: {sub_display}")
 
+            # Create auto-complete with available commands
+            command_completer = WordCompleter(_get_available_commands(), ignore_case=True)
+
             # Use prompt_toolkit for command input with history
-            raw_input = _prompt_input("> ").strip()
+            raw_input = _prompt_input("> ", completer=command_completer).strip()
 
             # Parse multi-line input, filtering comments and blank lines
             commands = parse_multiline_commands(raw_input)
@@ -1437,9 +1479,11 @@ def interactive_mode():
                         "[dim]Enter multiple commands (press Enter twice to submit):[/dim]"
                     )
                     paste_lines = []
+                    # Use completer in paste mode too
+                    paste_completer = WordCompleter(_get_available_commands(), ignore_case=True)
                     while True:
                         try:
-                            line = _prompt_input("  ")
+                            line = _prompt_input("  ", completer=paste_completer)
                             if not line.strip():
                                 break
                             paste_lines.append(line)
@@ -1569,7 +1613,7 @@ def show_help():
         ("publish", "Publish role to Azure"),
         ("list-azure", "List custom roles in Azure"),
         ("view-azure", "View detailed permissions of an Azure role"),
-        ("search-azure", "Search for Azure roles by permission pattern"),
+        ("search-permissions", "Search for permissions by pattern across roles"),
         (
             "import-azure-permissions",
             "Import matching Azure permissions into current role",

@@ -120,7 +120,7 @@ def test_interactive_keyboard_interrupt(monkeypatch):
     def raise_keyboard_interrupt(*args, **kwargs):
         raise KeyboardInterrupt()
 
-    monkeypatch.setattr(cli, "prompt", raise_keyboard_interrupt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': raise_keyboard_interrupt})())
 
     with cli.term.capture() as capture:
         cli.interactive_mode()

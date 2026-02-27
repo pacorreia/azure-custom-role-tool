@@ -146,8 +146,8 @@ def test_view_azure_with_filter(monkeypatch):
     assert "Microsoft.Storage/storageAccounts" in result.output
 
 
-def test_search_azure_command_with_matches(monkeypatch):
-    """Test search-azure command finds matching roles."""
+def test_search_permissions_command_with_matches(monkeypatch):
+    """Test search-permissions command finds matching roles."""
     runner = CliRunner()
 
     monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
@@ -155,26 +155,26 @@ def test_search_azure_command_with_matches(monkeypatch):
         cli, "current_subscription", "sub-123"
     )  # Set subscription context
 
-    result = runner.invoke(cli.cli, ["search-azure", "--filter", "Microsoft.Storage/%"])
+    result = runner.invoke(cli.cli, ["search-permissions", "--filter", "Microsoft.Storage/%"])
     assert result.exit_code == 0
     assert "Custom-Storage-Role" in result.output
 
 
-def test_search_azure_positional_filter(monkeypatch):
-    """Test search-azure accepts filter as positional argument."""
+def test_search_permissions_positional_filter(monkeypatch):
+    """Test search-permissions accepts filter as positional argument."""
     runner = CliRunner()
 
     monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
     monkeypatch.setattr(cli, "current_subscription", "sub-123")
 
-    result = runner.invoke(cli.cli, ["search-azure", "Microsoft.Storage/%"])
+    result = runner.invoke(cli.cli, ["search-permissions", "Microsoft.Storage/%"])
     assert result.exit_code == 0
     assert "Permissions matching" in result.output
     assert "Microsoft.Storage/storageAccounts/read" in result.output
 
 
-def test_search_azure_command_no_matches(monkeypatch):
-    """Test search-azure command when no roles match."""
+def test_search_permissions_command_no_matches(monkeypatch):
+    """Test search-permissions command when no roles match."""
     runner = CliRunner()
 
     monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
@@ -183,14 +183,14 @@ def test_search_azure_command_no_matches(monkeypatch):
     )  # Set subscription context
 
     result = runner.invoke(
-        cli.cli, ["search-azure", "--filter", "Microsoft.Compute/nonexistent%"]
+        cli.cli, ["search-permissions", "--filter", "Microsoft.Compute/nonexistent%"]
     )
     assert result.exit_code == 0
     assert "No permissions found" in result.output
 
 
-def test_search_azure_with_data_actions(monkeypatch):
-    """Test search-azure correctly searches data actions."""
+def test_search_permissions_with_data_actions(monkeypatch):
+    """Test search-permissions correctly searches data actions."""
     runner = CliRunner()
 
     monkeypatch.setattr(cli, "AzureClient", DummyAzureClientWithAllRoles)
@@ -201,7 +201,7 @@ def test_search_azure_with_data_actions(monkeypatch):
     result = runner.invoke(
         cli.cli,
         [
-            "search-azure",
+            "search-permissions",
             "--filter",
             "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/%",
         ],

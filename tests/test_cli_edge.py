@@ -144,7 +144,7 @@ def test_interactive_current_role_and_empty_args(monkeypatch, tmp_path: Path):
     def fake_prompt(*args, **kwargs):
         return next(commands)
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
 
     with cli.term.capture() as capture:
         cli.interactive_mode()
@@ -162,7 +162,7 @@ def test_interactive_empty_args_path(monkeypatch):
     def fake_split(_value):
         return []
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
     monkeypatch.setattr(cli.shlex, "split", fake_split)
 
     with cli.term.capture():
@@ -178,7 +178,7 @@ def test_interactive_outer_exception(monkeypatch):
             raise item
         return item
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
 
     with cli.term.capture() as capture:
         cli.interactive_mode()
@@ -267,7 +267,7 @@ def test_console_command_blocked_in_console_mode(monkeypatch):
     def fake_prompt(*args, **kwargs):
         return next(commands)
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
 
     with cli.term.capture() as capture:
         cli.interactive_mode()
@@ -283,7 +283,7 @@ def test_unknown_command_in_console_mode(monkeypatch):
     def fake_prompt(*args, **kwargs):
         return next(commands)
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
 
     with cli.term.capture() as capture:
         cli.interactive_mode()

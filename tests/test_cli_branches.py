@@ -206,7 +206,7 @@ def test_interactive_mode_error_paths(monkeypatch):
     def fake_cli_main(*args, **kwargs):
         raise next(errors)
 
-    monkeypatch.setattr(cli, "prompt", fake_prompt)
+    monkeypatch.setattr(cli, "PROMPT_SESSION", type('MockSession', (), {'prompt': fake_prompt})())
     monkeypatch.setattr(cli.cli, "main", fake_cli_main)
 
     with cli.term.capture() as capture:
